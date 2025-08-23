@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { VoiceTranscription } from "./VoiceTranscription"
 import { Menu, X } from "lucide-react"
 import { useState } from "react"
 import evolveHrLogo from "@/assets/evolve-hr-logo.webp"
@@ -45,6 +46,7 @@ export function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-4">
+            <VoiceTranscription compact />
             <ThemeToggle />
             <Button variant="ghost" size="sm">
               Sign In
@@ -56,6 +58,7 @@ export function Header() {
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center space-x-2">
+            <VoiceTranscription compact />
             <ThemeToggle />
             <Button
               variant="ghost"
