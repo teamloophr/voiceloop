@@ -14,28 +14,28 @@ export function Hero() {
 
           {/* Main headline */}
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-            The Future of{" "}
+            AI-Powered{" "}
             <span className="bg-gradient-hero bg-clip-text text-transparent">
-              Human Resources
+              Employee Management
             </span>{" "}
-            Management
+            Platform
           </h1>
 
           {/* Subheadline */}
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-            Streamline your HR operations with our comprehensive HRIS platform. 
-            From talent acquisition to performance management, all in one beautifully designed system.
+            Teamloop combines AI chat, voice transcription, and intelligent insights to revolutionize 
+            how you manage your team. From onboarding to performance analytics, all powered by AI.
           </p>
 
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
             <Button size="lg" className="bg-gradient-primary hover:opacity-90 shadow-glow group">
-              Start Free Trial
+              Launch Teamloop
               <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button size="lg" variant="outline" className="group">
               <Play className="mr-2 h-4 w-4" />
-              Watch Demo
+              AI Demo
             </Button>
           </div>
 
@@ -43,15 +43,15 @@ export function Hero() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <CheckCircle className="h-4 w-4 text-success" />
-              <span>SOC 2 Compliant</span>
+              <span>AI-Powered</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="h-4 w-4 text-success" />
-              <span>GDPR Ready</span>
+              <span>Voice AI Ready</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle className="h-4 w-4 text-success" />
-              <span>99.9% Uptime</span>
+              <span>Real-time Insights</span>
             </div>
           </div>
         </div>

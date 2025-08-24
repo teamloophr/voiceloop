@@ -4,16 +4,16 @@ import { VoiceTranscription } from "./VoiceTranscription"
 import { Menu, X, MessageSquare, Settings } from "lucide-react"
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import evolveHrLogo from "@/assets/evolve-hr-logo.webp"
+import teamloopLogo from "@/assets/teamloop-logo-2.png"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navigation = [
-    { name: "Features", href: "#features" },
-    { name: "Solutions", href: "#solutions" },
-    { name: "Pricing", href: "#pricing" },
-    { name: "Resources", href: "#resources" }
+    { name: "Dashboard", href: "/dashboard" },
+    { name: "Employees", href: "/employees" },
+    { name: "Analytics", href: "/analytics" },
+    { name: "AI Assistant", href: "/chat" }
   ]
 
   return (
@@ -23,8 +23,8 @@ export function Header() {
           {/* Logo */}
           <div className="flex items-center">
             <img 
-              src={evolveHrLogo} 
-              alt="EvolveHR" 
+              src={teamloopLogo} 
+              alt="Teamloop Logo" 
               className="h-20 w-auto"
             />
           </div>
@@ -62,7 +62,7 @@ export function Header() {
               Sign In
             </Button>
             <Button size="sm" className="bg-gradient-primary hover:opacity-90">
-              Get Started
+              Launch Teamloop
             </Button>
           </div>
 
@@ -110,9 +110,9 @@ export function Header() {
                 <Button variant="ghost" size="sm">
                   Sign In
                 </Button>
-                <Button size="sm" className="bg-gradient-primary hover:opacity-90">
-                  Get Started
-                </Button>
+                                 <Button size="sm" className="bg-gradient-primary hover:opacity-90">
+                   Launch Teamloop
+                 </Button>
               </div>
             </div>
           </div>

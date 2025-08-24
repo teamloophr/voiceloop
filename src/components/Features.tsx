@@ -17,13 +17,13 @@ export function Features() {
     {
       icon: Users,
       title: "Employee Management",
-      description: "Complete employee lifecycle management with digital onboarding, document management, and comprehensive record keeping.",
+      description: "Complete employee lifecycle management with AI-powered insights, voice AI assistance, and intelligent workflows.",
       badge: "Core Feature"
     },
     {
       icon: UserCheck,
-      title: "Talent Acquisition",
-      description: "AI-powered ATS with intelligent candidate matching, automated screening, and seamless interview scheduling.",
+      title: "AI Assistant",
+      description: "Intelligent AI chat and voice transcription powered by OpenAI Whisper and ElevenLabs for seamless communication.",
       badge: "AI-Enhanced"
     },
     {
@@ -40,8 +40,8 @@ export function Features() {
     },
     {
       icon: Brain,
-      title: "AI-Powered Insights",
-      description: "Machine learning algorithms for personalized learning paths, performance optimization, and HR automation.",
+      title: "Voice AI & Transcription",
+      description: "Advanced voice recognition with OpenAI Whisper and natural-sounding TTS with ElevenLabs integration.",
       badge: "AI-Powered"
     },
     {
@@ -58,8 +58,8 @@ export function Features() {
     },
     {
       icon: Zap,
-      title: "True Dark Mode",
-      description: "Carefully crafted true dark mode for enhanced user experience and reduced eye strain during extended use.",
+      title: "Real-time AI Chat",
+      description: "Instant AI assistance for employee queries, onboarding guidance, and performance insights with natural conversations.",
       badge: "Enhanced UX"
     },
     {
@@ -94,7 +94,7 @@ export function Features() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Everything You Need for{" "}
             <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Modern HR
+              Modern Teams
             </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">

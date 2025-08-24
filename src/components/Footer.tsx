@@ -8,21 +8,21 @@ import {
   Phone,
   MapPin
 } from "lucide-react"
-import evolveHrLogo from "@/assets/evolve-hr-logo.webp"
+import teamloopLogo from "@/assets/teamloop-logo-2.png"
 
 export function Footer() {
   const navigation = {
     product: [
-      { name: "Features", href: "#" },
-      { name: "Integrations", href: "#" },
-      { name: "Pricing", href: "#" },
-      { name: "API", href: "#" },
+      { name: "Dashboard", href: "/dashboard" },
+      { name: "AI Assistant", href: "/chat" },
+      { name: "Voice AI", href: "/voice" },
+      { name: "Analytics", href: "/analytics" },
     ],
     solutions: [
-      { name: "Small Business", href: "#" },
-      { name: "Enterprise", href: "#" },
-      { name: "Startups", href: "#" },
-      { name: "Remote Teams", href: "#" },
+      { name: "Employee Management", href: "/employees" },
+      { name: "Performance Tracking", href: "/performance" },
+      { name: "Team Analytics", href: "/analytics" },
+      { name: "AI Insights", href: "/insights" },
     ],
     resources: [
       { name: "Documentation", href: "#" },
@@ -39,9 +39,9 @@ export function Footer() {
   }
 
   const socialLinks = [
-    { name: "Twitter", icon: Twitter, href: "#" },
-    { name: "LinkedIn", icon: Linkedin, href: "#" },
-    { name: "GitHub", icon: Github, href: "#" },
+    { name: "Twitter", icon: Twitter, href: "https://twitter.com/teamloop" },
+    { name: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/company/teamloop" },
+    { name: "GitHub", icon: Github, href: "https://github.com/teamloop" },
   ]
 
   return (
@@ -51,21 +51,21 @@ export function Footer() {
           {/* Company Info */}
           <div className="lg:col-span-2">
             <div className="flex items-center mb-4">
-              <img 
-                src={evolveHrLogo} 
-                alt="EvolveHR" 
-                className="h-20 w-auto"
-              />
+                          <img 
+              src={teamloopLogo} 
+              alt="Teamloop Logo" 
+              className="h-20 w-auto"
+            />
             </div>
             <p className="text-muted-foreground mb-6 max-w-md">
-              Revolutionizing human resource management with AI-powered insights, 
-              true dark mode experience, and comprehensive HR solutions.
+              AI-powered employee management platform with voice AI, chat assistance, 
+              and intelligent insights for modern teams.
             </p>
             
             <div className="space-y-2 text-sm text-muted-foreground">
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4" />
-                <span>hello@evolvehr.com</span>
+                <span>hello@teamloop.com</span>
               </div>
               <div className="flex items-center space-x-2">
                 <Phone className="h-4 w-4" />
@@ -148,9 +148,9 @@ export function Footer() {
 
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-          <div className="text-sm text-muted-foreground">
-            © 2024 EvolveHR. All rights reserved.
-          </div>
+                     <div className="text-sm text-muted-foreground">
+             © 2024 Teamloop. All rights reserved.
+           </div>
 
           {/* Social Links */}
           <div className="flex items-center space-x-4">

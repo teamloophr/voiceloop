@@ -1,25 +1,25 @@
 {
-  "name": "EvolveHR",
-  "short_name": "EvolveHR",
-  "description": "The Future of Human Resources Management",
+  "name": "Teamloop",
+  "short_name": "Teamloop",
+  "description": "AI-Powered Employee Management Platform",
   "icons": [
     {
-      "src": "/favicon-16x16.png",
+      "src": "/teamloop-favicon-16x16.png",
       "sizes": "16x16",
       "type": "image/png"
     },
     {
-      "src": "/favicon-32x32.png",
+      "src": "/teamloop-favicon-32x32.png",
       "sizes": "32x32",
       "type": "image/png"
     },
     {
-      "src": "/apple-touch-icon.png",
+      "src": "/teamloop-apple-touch-icon.png",
       "sizes": "180x180",
       "type": "image/png"
     }
   ],
-  "theme_color": "#000000",
+  "theme_color": "#3B82F6",
   "background_color": "#ffffff",
   "display": "standalone"
 }

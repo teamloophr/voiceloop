@@ -21,14 +21,14 @@ export function DashboardPreview() {
             Dashboard Preview
           </Badge>
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Intuitive Dashboard with{" "}
+            Intelligent Dashboard with{" "}
             <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Actionable Insights
+              AI-Powered Insights
             </span>
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Get a comprehensive view of your HR metrics with our beautifully designed dashboard 
-            that adapts perfectly to both light and dark modes.
+            Get a comprehensive view of your team metrics with AI-powered insights, voice AI assistance, 
+            and intelligent analytics that adapt to your workflow.
           </p>
         </div>
 
@@ -41,7 +41,7 @@ export function DashboardPreview() {
             {/* Dashboard Header */}
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h3 className="text-2xl font-bold">HR Dashboard</h3>
+                <h3 className="text-2xl font-bold">Teamloop Dashboard</h3>
                 <p className="text-muted-foreground">Welcome back, Sarah Johnson</p>
               </div>
               <Button variant="outline" size="sm">

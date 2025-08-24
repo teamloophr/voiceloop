@@ -24,6 +24,12 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				// Teamloop Brand Colors
+				teamloop: {
+					teal: '#2C5F7A',      // Dark Teal/Blue (Team text)
+					gray: '#A8BCC7',      // Light Gray/Blue (loop text)
+					gold: '#D4AF37',      // Gold/Orange (graphic elements)
+				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',

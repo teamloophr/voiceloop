@@ -2,11 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
-/* EvolveHR Design System - Modern HRIS Platform with True Dark Mode
+/* Teamloop Design System - AI-Powered Employee Management Platform
 All colors MUST be HSL for optimal theming support.
 */
 
 @layer base {
+  /* Teamloop Typography - Modern Sans-Serif with Visual Hierarchy */
+  body {
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 400;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700; /* Bold for Team part */
+  }
+  
+  .font-teamloop {
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  }
+  
+  .font-teamloop-team {
+    font-weight: 700; /* Bold for Team */
+  }
+  
+  .font-teamloop-loop {
+    font-weight: 400; /* Regular for loop */
+  }
+  
   :root {
     /* Core brand colors - Professional HR platform palette */
     --background: 240 10% 98%;
@@ -18,19 +41,20 @@ All colors MUST be HSL for optimal theming support.
     --popover: 240 10% 100%;
     --popover-foreground: 240 10% 8%;
 
-    /* Primary brand - Deep professional blue */
-    --primary: 239 84% 67%;
+    /* Primary brand - Teamloop Teal */
+    --primary: 207 47% 32%;        /* #2C5F7A - Dark Teal/Blue */
     --primary-foreground: 240 10% 98%;
-    --primary-glow: 239 84% 75%;
+    --primary-glow: 207 47% 40%;
 
-    /* Secondary - Sophisticated gray-blue */
-    --secondary: 240 5% 96%;
+    /* Secondary - Teamloop Gray */
+    --secondary: 207 20% 75%;      /* #A8BCC7 - Light Gray/Blue */
     --secondary-foreground: 240 10% 8%;
 
-    --muted: 240 5% 96%;
+    --muted: 207 20% 75%;
     --muted-foreground: 240 4% 46%;
 
-    --accent: 268 83% 58%;
+    /* Accent - Teamloop Gold */
+    --accent: 45 65% 52%;          /* #D4AF37 - Gold/Orange */
     --accent-foreground: 240 10% 98%;
 
     --destructive: 0 84% 60%;
@@ -74,18 +98,19 @@ All colors MUST be HSL for optimal theming support.
     --popover: 240 8% 6%;
     --popover-foreground: 240 5% 95%;
 
-    /* Primary maintains brand identity in dark mode */
-    --primary: 239 84% 67%;
+    /* Primary maintains Teamloop brand identity in dark mode */
+    --primary: 207 47% 32%;        /* #2C5F7A - Dark Teal/Blue */
     --primary-foreground: 240 10% 4%;
-    --primary-glow: 239 84% 75%;
+    --primary-glow: 207 47% 40%;
 
-    --secondary: 240 4% 15%;
+    --secondary: 207 20% 75%;      /* #A8BCC7 - Light Gray/Blue */
     --secondary-foreground: 240 5% 95%;
 
-    --muted: 240 4% 12%;
+    --muted: 207 20% 75%;
     --muted-foreground: 240 5% 64%;
 
-    --accent: 268 83% 58%;
+    /* Accent - Teamloop Gold */
+    --accent: 45 65% 52%;          /* #D4AF37 - Gold/Orange */
     --accent-foreground: 240 10% 4%;
 
     --destructive: 0 84% 60%;

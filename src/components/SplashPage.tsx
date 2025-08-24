@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import evolveHrLogo from "@/assets/evolve-hr-logo.webp"
+import teamloopLogo from "@/assets/teamloop-logo-2.png"
 
 interface SplashPageProps {
   onComplete: () => void
@@ -36,9 +36,9 @@ export function SplashPage({ onComplete }: SplashPageProps) {
       }`}>
         {/* Large Logo */}
         <img 
-          src={evolveHrLogo} 
-          alt="EvolveHR" 
-          className="h-64 w-auto mx-auto mb-8 drop-shadow-2xl"
+          src={teamloopLogo} 
+          alt="Teamloop" 
+          className="h-80 w-auto mx-auto mb-8 drop-shadow-2xl"
         />
         
         {/* Loading Animation */}
@@ -56,7 +56,7 @@ export function SplashPage({ onComplete }: SplashPageProps) {
         
         {/* Loading Text */}
         <p className="text-muted-foreground mt-4 text-lg font-medium">
-          {isLoaded ? 'Welcome to EvolveHR' : 'Loading...'}
+          {isLoaded ? 'Welcome to Teamloop' : 'Loading...'}
         </p>
       </div>
     </div>
