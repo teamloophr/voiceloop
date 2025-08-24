@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { VoiceTranscription } from "./VoiceTranscription"
-import { Menu, X } from "lucide-react"
+import { Menu, X, MessageSquare, Settings } from "lucide-react"
 import { useState } from "react"
+import { Link } from "react-router-dom"
 import evolveHrLogo from "@/assets/evolve-hr-logo.webp"
 
 export function Header() {
@@ -43,6 +44,18 @@ export function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-4">
+            <Link to="/chat">
+              <Button variant="ghost" size="sm" className="flex items-center gap-2">
+                <MessageSquare className="h-4 w-4" />
+                AI Chat
+              </Button>
+            </Link>
+            <Link to="/settings">
+              <Button variant="ghost" size="sm" className="flex items-center gap-2">
+                <Settings className="h-4 w-4" />
+                Settings
+              </Button>
+            </Link>
             <VoiceTranscription compact />
             <ThemeToggle />
             <Button variant="ghost" size="sm">
@@ -82,6 +95,18 @@ export function Header() {
                 </a>
               ))}
               <div className="flex flex-col space-y-2 pt-4">
+                <Link to="/chat" className="w-full">
+                  <Button variant="ghost" size="sm" className="w-full justify-start">
+                    <MessageSquare className="h-4 w-4 mr-2" />
+                    AI Chat
+                  </Button>
+                </Link>
+                <Link to="/settings" className="w-full">
+                  <Button variant="ghost" size="sm" className="w-full justify-start">
+                    <Settings className="h-4 w-4 mr-2" />
+                    Settings
+                  </Button>
+                </Link>
                 <Button variant="ghost" size="sm">
                   Sign In
                 </Button>
