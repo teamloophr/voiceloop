@@ -80,6 +80,12 @@ Teamloop/
 5. **Open your browser**
    Navigate to `http://localhost:8081`
 
+## 🌐 Live Demo
+
+**Try Teamloop Live:** [http://your-app-name.s3-website-us-east-1.amazonaws.com](http://your-app-name.s3-website-us-east-1.amazonaws.com)
+
+The live demo showcases the complete Teamloop experience with AI-powered features and modern UI/UX design.
+
 ## ⚙️ Configuration
 
 ### Environment Variables
@@ -148,23 +154,28 @@ npm run type-check   # TypeScript type checking
 ### Project Structure
 
 ```
-src/
-├── components/          # Reusable UI components
-│   ├── ui/             # shadcn/ui components
-│   ├── Header.tsx      # Main navigation
-│   ├── Hero.tsx        # Landing hero section
-│   ├── Features.tsx    # Feature showcase
-│   └── Footer.tsx      # Site footer
-├── pages/              # Page components
-│   ├── Index.tsx       # Landing page
-│   ├── ChatPage.tsx    # AI chat interface
-│   └── SettingsPage.tsx # User settings
-├── lib/                # Utility libraries
-│   ├── api.ts          # API client
-│   └── utils.ts        # Helper functions
-├── hooks/              # Custom React hooks
-├── assets/             # Images and static files
-└── index.css           # Global styles and CSS variables
+teamloop/
+├── src/                    # Source code
+│   ├── components/         # Reusable UI components
+│   │   ├── ui/            # shadcn/ui components
+│   │   ├── Header.tsx     # Main navigation
+│   │   ├── Hero.tsx       # Landing hero section
+│   │   ├── Features.tsx   # Feature showcase
+│   │   └── Footer.tsx     # Site footer
+│   ├── pages/             # Page components
+│   │   ├── Index.tsx      # Landing page
+│   │   ├── ChatPage.tsx   # AI chat interface
+│   │   └── SettingsPage.tsx # User settings
+│   ├── lib/               # Utility libraries
+│   │   ├── api.ts         # API client
+│   │   └── utils.ts       # Helper functions
+│   ├── hooks/             # Custom React hooks
+│   ├── assets/            # Images and static files
+│   └── index.css          # Global styles and CSS variables
+├── dist/                   # Production build (generated)
+├── public/                 # Static assets
+├── human-light-mode-backend/ # Backend API server
+└── docs/                   # Documentation files
 ```
 
 ### Component Development
@@ -176,6 +187,31 @@ All components follow a consistent pattern:
 - **shadcn/ui** for base components
 - **Responsive design** principles
 - **Accessibility** best practices
+
+## 🚀 Deployment
+
+### S3 Static Website Hosting
+
+Teamloop is deployed to AWS S3 for production hosting:
+
+1. **Build the application**
+   ```bash
+   npm run build
+   ```
+
+2. **Deploy to S3**
+   ```bash
+   aws s3 sync dist/ s3://your-app-name --delete
+   ```
+
+3. **Access your live site**
+   Navigate to: `http://your-app-name.s3-website-us-east-1.amazonaws.com`
+
+### Environment Requirements
+
+- **AWS CLI** configured with appropriate permissions
+- **S3 bucket** configured for static website hosting
+- **Bucket policy** allowing public read access
 
 ## 🔧 Backend Setup
 
