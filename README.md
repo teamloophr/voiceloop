@@ -1,312 +1,265 @@
-# 🚀 Teamloop - AI-Powered Employee Management Platform
+# Human Light Mode - VoiceLoop HR Platform
 
-<div align="center">
-  <img src="src/assets/teamloop-logo-2.png" alt="Teamloop Logo" width="200" />
-  
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-  [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-  [![React](https://img.shields.io/badge/React-20232A?style=flat&logo=react&logoColor=61DAFB)](https://reactjs.org/)
-  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-</div>
+A modern, AI-powered HR management platform with integrated voice assistant capabilities, built with React, TypeScript, and Tailwind CSS.
 
-## 📖 Overview
+## 🚀 Features
 
-**Teamloop** is a cutting-edge, AI-powered employee management platform that revolutionizes how modern teams handle HR operations. Built with React, TypeScript, and advanced AI technologies, Teamloop combines intelligent chat assistance, voice transcription, and comprehensive employee management tools into one seamless platform.
+### Core Platform
+- **HR Management Dashboard** - Comprehensive employee tracking and analytics
+- **VoiceLoop AI Assistant** - AI-powered voice interactions for HR tasks
+- **Sandbox Mode** - Development playground for testing data manipulation
+- **Responsive Design** - Mobile-first approach with desktop optimization
+- **Dark/Light Mode** - True black dark mode with light mode support
 
-### ✨ Key Features
+### AI & Voice Integration
+- **OpenAI Whisper** - Speech-to-text transcription
+- **ElevenLabs TTS** - High-quality text-to-speech
+- **Floating Chat Interface** - Persistent, draggable, resizable chat window
+- **Voice Commands** - Predefined AI suggestions and actions
+- **Real-time Processing** - Instant voice input/output
 
-- 🤖 **AI-Powered Chat Assistant** - OpenAI GPT integration for intelligent HR support
-- 🎤 **Voice AI & Transcription** - OpenAI Whisper for real-time voice-to-text
-- 🔊 **Advanced Text-to-Speech** - ElevenLabs integration for natural voice output
-- 👥 **Employee Management** - Complete lifecycle management with AI insights
-- 📊 **Intelligent Analytics** - AI-driven insights and performance tracking
-- 🎨 **Modern UI/UX** - Beautiful, responsive design with dark/light mode
-- 🔒 **Secure Authentication** - JWT-based security with role management
-- 📱 **Mobile-First Design** - Optimized for all devices and screen sizes
+### Data Management
+- **Employee Records** - Add, edit, delete employee information
+- **Performance Metrics** - Track KPIs and performance indicators
+- **Activity Feed** - Monitor HR activities and updates
+- **Real-time Updates** - Live data synchronization across components
 
-## 🏗️ Architecture
+## 🏗️ Site Architecture & Navigation
 
-```
-Teamloop/
-├── Frontend (React + TypeScript)
-│   ├── AI Chat Interface
-│   ├── Voice Transcription
-│   ├── Employee Dashboard
-│   └── Settings & Configuration
-├── Backend (Node.js + Express)
-│   ├── OpenAI Integration
-│   ├── ElevenLabs TTS
-│   ├── Authentication
-│   └── API Endpoints
-└── Database (PostgreSQL)
-    ├── User Management
-    ├── Conversation History
-    └── Employee Data
-```
+### Main Landing Page (`/`)
+- **Hero Section** - Platform introduction with VoiceLoop launch button
+- **Features Overview** - Key platform capabilities
+- **HR Management Sandbox** - Editable employee and metrics management
+- **Dashboard Preview** - Platform capabilities showcase
 
-## 🚀 Quick Start
+### Dashboard (`/dashboard`)
+- **Header** - Logo (clickable to home), edit mode toggle, settings, theme toggle
+- **VoiceLoop Assistant** - Featured AI chat interface at the top
+- **Metrics Panel** - Key HR metrics with inline editing (sandbox mode)
+- **Analytics Charts** - Visual data representation
+- **Activity Feed** - Recent activities with add functionality (sandbox mode)
+- **Footer** - Company info and status indicators
+
+### Settings (`/settings`)
+- **API Configuration** - OpenAI and ElevenLabs API key management
+- **Theme Preferences** - Dark/light mode settings
+- **User Preferences** - Customizable settings
+
+### Chat Interface (`/chat`)
+- **Standalone Chat** - Full-featured voice-enabled AI assistant
+- **API Key Management** - Built-in configuration for voice services
+
+## 🎯 Sandbox Mode - Development Playground
+
+### Purpose
+Sandbox mode allows HR professionals and developers to:
+- Test data manipulation in a safe environment
+- Demonstrate real-time data flow between components
+- Validate CRUD operations for employee and metric data
+- Showcase the platform's capabilities without production concerns
+
+### Features
+- **Toggle Edit Mode** - Enable/disable editing capabilities
+- **Inline Editing** - Click-to-edit metrics and employee records
+- **Real-time Updates** - Changes reflect immediately across the dashboard
+- **Data Persistence** - Local storage for development data
+- **Visual Indicators** - Clear indication when sandbox mode is active
+
+### Usage
+1. Navigate to dashboard and click "Enable Edit Mode"
+2. Edit metrics by clicking the ✏️ icon on metric cards
+3. Add new activities using the "Add" button in Activity Feed
+4. Modify employee data on the main page sandbox section
+5. Watch real-time updates across all components
+
+## 📱 Mobile Optimization
+
+### Responsive Design Features
+- **Mobile-First Approach** - Optimized for small screens
+- **Adaptive Layouts** - Grid systems that stack on mobile
+- **Touch-Friendly Controls** - Appropriate button sizes and spacing
+- **Responsive Typography** - Text scales appropriately across devices
+- **Optimized Spacing** - Reduced padding and margins on mobile
+
+### Breakpoint Strategy
+- **Mobile**: `sm:` (640px+) - Compact layouts, stacked grids
+- **Tablet**: `md:` (768px+) - Medium spacing, 2-column grids
+- **Desktop**: `lg:` (1024px+) - Full layouts, 4-column grids
+- **Large**: `xl:` (1280px+) - Maximum content width
+
+### Mobile-Specific Enhancements
+- **Compact Headers** - Smaller logo and button sizes on mobile
+- **Stacked Navigation** - Vertical layout for mobile navigation
+- **Touch Targets** - Minimum 44px touch areas for mobile
+- **Readable Text** - Appropriate font sizes for mobile screens
+- **Optimized Forms** - Mobile-friendly input fields and buttons
+
+## 🤖 AI Context Awareness
+
+### Platform Understanding
+The AI assistant is aware of:
+- **Site Structure** - Navigation patterns and page relationships
+- **Data Models** - Employee, metric, and activity data structures
+- **Sandbox Capabilities** - Development and testing features
+- **Voice Commands** - Predefined AI suggestions and actions
+- **Real-time Updates** - Live data synchronization
+
+### Common User Scenarios
+1. **HR Professional Setup** - Configuring the platform for team management
+2. **Data Entry** - Adding and managing employee records
+3. **Performance Monitoring** - Tracking KPIs and metrics
+4. **Voice Interaction** - Using VoiceLoop for hands-free HR tasks
+5. **Development Testing** - Utilizing sandbox mode for validation
+
+## 🛠️ Technical Implementation
+
+### Frontend Stack
+- **React 18** - Modern React with hooks and context
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first CSS framework
+- **shadcn/ui** - High-quality component library
+- **Vite** - Fast build tool and dev server
+
+### State Management
+- **React Context** - Global state for sandbox mode
+- **Local Storage** - Persistence for chat and user preferences
+- **Real-time Updates** - Live data synchronization
+
+### Voice Services
+- **OpenAI Whisper** - Speech-to-text via API
+- **ElevenLabs** - Text-to-speech synthesis
+- **MediaRecorder API** - Browser-based audio recording
+- **Audio API** - Playback and audio management
+
+### Responsive Utilities
+- **CSS Grid** - Flexible layout system
+- **Flexbox** - Component alignment and spacing
+- **CSS Variables** - Theme-aware styling
+- **Media Queries** - Breakpoint-specific styles
+
+## 🚀 Getting Started
 
 ### Prerequisites
-
-- **Node.js** 18+ and **npm** 9+
-- **OpenAI API Key** for GPT and Whisper
-- **ElevenLabs API Key** for enhanced TTS
-- **Modern browser** with ES6+ support
+- Node.js 18+ and npm
+- OpenAI API key for Whisper functionality
+- ElevenLabs API key for text-to-speech
 
 ### Installation
+```bash
+# Clone the repository
+git clone <repository-url>
+cd human-light-mode-main
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-username/teamloop.git
-   cd teamloop
-   ```
+# Install dependencies
+npm install
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+# Set up environment variables
+cp env.example .env.local
+# Add your API keys to .env.local
 
-3. **Configure environment variables**
-   ```bash
-   cp env.teamloop.md .env.local
-   # Edit .env.local with your API keys
-   ```
-
-4. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-5. **Open your browser**
-   Navigate to `http://localhost:8081`
-
-## 🌐 Live Demo
-
-**Try Teamloop Live:** [http://your-app-name.s3-website-us-east-1.amazonaws.com](http://your-app-name.s3-website-us-east-1.amazonaws.com)
-
-The live demo showcases the complete Teamloop experience with AI-powered features and modern UI/UX design.
-
-## ⚙️ Configuration
+# Start development server
+npm run dev
+```
 
 ### Environment Variables
-
-Create a `.env.local` file in the project root:
-
-```env
-# API Configuration
-VITE_API_BASE_URL=http://localhost:3001
-
-# OpenAI Configuration
-VITE_OPENAI_API_KEY=your_openai_api_key_here
-
-# ElevenLabs Configuration
-VITE_ELEVENLABS_API_KEY=your_elevenlabs_api_key_here
-VITE_ELEVENLABS_VOICE_ID=your_preferred_voice_id
-
-# Database Configuration (Pending PM Decision)
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-
-### API Keys Setup
-
-1. **OpenAI API Key**
-   - Visit [OpenAI Platform](https://platform.openai.com/api-keys)
-   - Create a new API key
-   - Add to your `.env.local` file
-
-2. **ElevenLabs API Key**
-   - Visit [ElevenLabs](https://elevenlabs.io/)
-   - Sign up and get your API key
-   - Add to your `.env.local` file
-
-## 🎨 Branding & Design
-
-### Color Palette
-
-Teamloop uses a carefully crafted color scheme that reflects our brand identity:
-
-- **Primary Teal** `#2C5F7A` - Dark teal/blue for main elements
-- **Secondary Gray** `#A8BCC7` - Light gray/blue for secondary elements  
-- **Accent Gold** `#D4AF37` - Gold/orange for highlights and CTAs
-
-### Typography
-
-- **Font Family**: Inter, Segoe UI, Roboto, Helvetica Neue, Arial
-- **Team Text**: Bold (700) weight for emphasis
-- **Loop Text**: Regular (400) weight for balance
-
-## 🛠️ Development
-
-### Available Scripts
-
 ```bash
-# Development
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run preview      # Preview production build
+# OpenAI API Key (required for Whisper)
+VITE_OPENAI_API_KEY=your_openai_key_here
 
-# Code Quality
-npm run lint         # Run ESLint
-npm run type-check   # TypeScript type checking
+# ElevenLabs API Key (required for TTS)
+VITE_ELEVENLABS_API_KEY=your_elevenlabs_key_here
 ```
+
+### Build & Deploy
+```bash
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Deploy to your hosting platform
+# The build output is in the 'dist' folder
+```
+
+## 🎨 Customization
+
+### Theming
+- **Dark Mode** - True black backgrounds with accent colors
+- **Light Mode** - Clean white backgrounds with subtle gradients
+- **Custom Colors** - Modify CSS variables in `src/index.css`
+- **Component Styling** - Override shadcn/ui component styles
+
+### Voice Assistant
+- **Custom Commands** - Add new voice command suggestions
+- **AI Responses** - Modify AI behavior and responses
+- **Voice Settings** - Adjust TTS voice and speed
+- **Integration** - Connect to external HR systems
+
+### Data Models
+- **Employee Fields** - Customize employee record structure
+- **Metrics** - Define custom KPIs and calculations
+- **Activities** - Add new activity types and statuses
+- **Validation** - Implement custom data validation rules
+
+## 🔧 Development
 
 ### Project Structure
-
 ```
-teamloop/
-├── src/                    # Source code
-│   ├── components/         # Reusable UI components
-│   │   ├── ui/            # shadcn/ui components
-│   │   ├── Header.tsx     # Main navigation
-│   │   ├── Hero.tsx       # Landing hero section
-│   │   ├── Features.tsx   # Feature showcase
-│   │   └── Footer.tsx     # Site footer
-│   ├── pages/             # Page components
-│   │   ├── Index.tsx      # Landing page
-│   │   ├── ChatPage.tsx   # AI chat interface
-│   │   └── SettingsPage.tsx # User settings
-│   ├── lib/               # Utility libraries
-│   │   ├── api.ts         # API client
-│   │   └── utils.ts       # Helper functions
-│   ├── hooks/             # Custom React hooks
-│   ├── assets/            # Images and static files
-│   └── index.css          # Global styles and CSS variables
-├── dist/                   # Production build (generated)
-├── public/                 # Static assets
-├── human-light-mode-backend/ # Backend API server
-└── docs/                   # Documentation files
+src/
+├── components/          # Reusable UI components
+│   ├── dashboard/      # Dashboard-specific components
+│   ├── ui/            # shadcn/ui components
+│   └── voice/         # Voice-related components
+├── contexts/           # React context providers
+├── hooks/             # Custom React hooks
+├── pages/             # Route components
+├── services/          # API and external service integrations
+└── lib/               # Utility functions and configurations
 ```
 
-### Component Development
+### Key Components
+- **DashboardLayout** - Main dashboard structure and navigation
+- **MetricsPanel** - HR metrics display with inline editing
+- **ActivityFeed** - Activity tracking with add functionality
+- **FloatingChat** - Persistent voice-enabled chat interface
+- **SandboxContext** - Global state management for sandbox mode
 
-All components follow a consistent pattern:
+### Adding New Features
+1. **Component Creation** - Add new components to appropriate directories
+2. **State Management** - Extend SandboxContext for new data types
+3. **Routing** - Add new routes in App.tsx
+4. **Styling** - Use Tailwind classes and CSS variables
+5. **Testing** - Test on mobile and desktop devices
 
-- **TypeScript interfaces** for props
-- **Tailwind CSS** for styling
-- **shadcn/ui** for base components
-- **Responsive design** principles
-- **Accessibility** best practices
+## 📱 Mobile Testing
 
-## 🚀 Deployment
+### Device Testing
+- **iOS Safari** - Test on iPhone and iPad
+- **Android Chrome** - Test on various Android devices
+- **Responsive DevTools** - Use browser dev tools for mobile simulation
+- **Touch Interactions** - Verify touch targets and gestures
 
-### S3 Static Website Hosting
-
-Teamloop is deployed to AWS S3 for production hosting:
-
-1. **Build the application**
-   ```bash
-   npm run build
-   ```
-
-2. **Deploy to S3**
-   ```bash
-   aws s3 sync dist/ s3://your-app-name --delete
-   ```
-
-3. **Access your live site**
-   Navigate to: `http://your-app-name.s3-website-us-east-1.amazonaws.com`
-
-### Environment Requirements
-
-- **AWS CLI** configured with appropriate permissions
-- **S3 bucket** configured for static website hosting
-- **Bucket policy** allowing public read access
-
-## 🔧 Backend Setup
-
-### Prerequisites
-
-- **Node.js** 18+ and **npm** 9+
-- **Database** (PostgreSQL/MongoDB - pending PM decision)
-
-### Installation
-
-1. **Navigate to backend directory**
-   ```bash
-   cd human-light-mode-backend
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Configure environment**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your configuration
-   ```
-
-4. **Start the server**
-   ```bash
-   npm run dev
-   ```
-
-## 📱 Features in Detail
-
-### AI Chat Assistant
-
-- **Real-time conversations** with OpenAI GPT
-- **Context-aware responses** for HR-specific queries
-- **Conversation history** and management
-- **Multi-language support**
-
-### Voice AI & Transcription
-
-- **High-accuracy transcription** with OpenAI Whisper
-- **Natural TTS output** with ElevenLabs
-- **Real-time processing** for live conversations
-- **Multiple voice options** and customization
-
-### Employee Management
-
-- **Complete employee profiles** and data
-- **Performance tracking** and analytics
-- **Onboarding workflows** and automation
-- **Document management** and storage
-
-## 🚧 Current Status
-
-### ✅ Completed
-- [x] Frontend UI/UX redesign
-- [x] Teamloop branding implementation
-- [x] AI chat interface
-- [x] Voice transcription components
-- [x] Responsive design system
-- [x] Dark/light mode support
-- [x] Component library setup
-
-### 🔄 In Progress
-- [ ] Backend API integration
-- [ ] Authentication system
-- [ ] Production deployment
-
-### 📋 Planned
-- [ ] User management system
-- [ ] Advanced analytics dashboard
-- [ ] Mobile app development
-- [ ] API documentation
-- [ ] Performance optimization
+### Performance
+- **Bundle Size** - Monitor JavaScript bundle size
+- **Loading Speed** - Test on slower mobile networks
+- **Memory Usage** - Check for memory leaks on mobile
+- **Battery Impact** - Minimize battery drain from voice features
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
-
 ### Development Workflow
-
-1. **Fork** the repository
-2. **Create** a feature branch
-3. **Make** your changes
-4. **Test** thoroughly
-5. **Submit** a pull request
+1. **Feature Branch** - Create feature branch from main
+2. **Mobile First** - Develop with mobile in mind
+3. **Testing** - Test on multiple devices and screen sizes
+4. **Code Review** - Submit PR for review
+5. **Mobile Validation** - Ensure mobile compatibility
 
 ### Code Standards
-
-- **TypeScript** for type safety
-- **ESLint** for code quality
-- **Prettier** for formatting
-- **Conventional commits** for messages
+- **TypeScript** - Use strict typing
+- **Responsive Design** - Mobile-first approach
+- **Accessibility** - Follow WCAG guidelines
+- **Performance** - Optimize for mobile devices
 
 ## 📄 License
 
@@ -314,38 +267,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🆘 Support
 
-### Getting Help
-
-- **Documentation**: Check this README and component docs
-- **Issues**: [GitHub Issues](https://github.com/your-username/teamloop/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-username/teamloop/discussions)
-- **Email**: hello@teamloop.com
-
-### Common Issues
-
-- **Port conflicts**: Change port in `vite.config.ts`
-- **API errors**: Verify environment variables
-- **Build failures**: Clear `node_modules` and reinstall
-
-## 🙏 Acknowledgments
-
-- **OpenAI** for GPT and Whisper APIs
-- **ElevenLabs** for advanced TTS capabilities
-- **shadcn/ui** for beautiful component library
-- **Tailwind CSS** for utility-first styling
-- **Vite** for fast development experience
-
-## 📞 Contact
-
-- **Website**: [teamloop.com](https://teamloop.com)
-- **Email**: hello@teamloop.com
-- **Twitter**: [@Teamloop](https://twitter.com/teamloop)
-- **LinkedIn**: [Teamloop](https://linkedin.com/company/teamloop)
+For support and questions:
+- Check the documentation in the `docs/` folder
+- Review the code examples in components
+- Test the sandbox mode for feature understanding
+- Use the VoiceLoop assistant for platform guidance
 
 ---
 
-<div align="center">
-  <strong>Built with ❤️ by the Teamloop Development Team</strong>
-  
-  [![Teamloop](https://img.shields.io/badge/Teamloop-AI%20Powered-blue?style=for-the-badge&logo=teamloop)](https://teamloop.com)
-</div>
+**Built with ❤️ for modern HR professionals who value efficiency, accessibility, and innovation.**

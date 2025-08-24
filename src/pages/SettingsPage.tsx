@@ -29,6 +29,8 @@ export default function SettingsPage() {
     auto_play_responses: false
   });
   const [apiKey, setApiKey] = useState('');
+  const [elevenLabsKey, setElevenLabsKey] = useState('');
+  const [elevenLabsKeyStatus, setElevenLabsKeyStatus] = useState(false);
   const [isTesting, setIsTesting] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [availableVoices, setAvailableVoices] = useState<Array<{id: string, name: string}>>([]);
@@ -39,6 +41,7 @@ export default function SettingsPage() {
   useEffect(() => {
     loadSettings();
     loadVoiceOptions();
+    loadElevenLabsKey();
   }, []);
 
   const loadSettings = async () => {
@@ -52,6 +55,14 @@ export default function SettingsPage() {
         description: "Failed to load settings",
         variant: "destructive",
       });
+    }
+  };
+
+  const loadElevenLabsKey = () => {
+    const savedKey = localStorage.getItem('elevenlabs_api_key');
+    if (savedKey) {
+      setElevenLabsKey(savedKey);
+      setElevenLabsKeyStatus(true);
     }
   };
 
@@ -127,6 +138,17 @@ export default function SettingsPage() {
     }
   };
 
+  const saveElevenLabsKey = () => {
+    if (!elevenLabsKey.trim()) return;
+    
+    localStorage.setItem('elevenlabs_api_key', elevenLabsKey);
+    setElevenLabsKeyStatus(true);
+    toast({
+      title: "Success",
+      description: "ElevenLabs API key saved successfully!",
+    });
+  };
+
   const removeApiKey = async () => {
     setIsLoading(true);
     try {
@@ -147,6 +169,16 @@ export default function SettingsPage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const removeElevenLabsKey = () => {
+    localStorage.removeItem('elevenlabs_api_key');
+    setElevenLabsKey('');
+    setElevenLabsKeyStatus(false);
+    toast({
+      title: "Success",
+      description: "ElevenLabs API key removed successfully!",
+    });
   };
 
   const updateVoiceSettings = async (newSettings: Partial<VoiceSettings>) => {
@@ -277,6 +309,77 @@ export default function SettingsPage() {
             <div className="text-sm text-muted-foreground">
               <p>• Your API key is encrypted and stored securely</p>
               <p>• We never see or store your actual API key</p>
+              <p>• You can remove your key at any time</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* ElevenLabs API Key Section */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Volume2 className="h-5 w-5" />
+              ElevenLabs API Configuration
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="elevenlabs-key">ElevenLabs API Key</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="elevenlabs-key"
+                  type="password"
+                  placeholder="Enter your ElevenLabs API key..."
+                  value={elevenLabsKey}
+                  onChange={(e) => setElevenLabsKey(e.target.value)}
+                  className="flex-1"
+                />
+                <Button
+                  onClick={saveElevenLabsKey}
+                  disabled={!elevenLabsKey.trim() || isLoading}
+                >
+                  {isLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    "Save"
+                  )}
+                </Button>
+              </div>
+            </div>
+
+            {/* ElevenLabs API Key Status */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium">Status:</span>
+              {elevenLabsKeyStatus ? (
+                <Badge variant="default" className="bg-green-500">
+                  <CheckCircle className="h-3 w-3 mr-1" />
+                  API Key Configured
+                </Badge>
+              ) : (
+                <Badge variant="secondary">
+                  <XCircle className="h-3 w-3 mr-1" />
+                  No API Key
+                </Badge>
+              )}
+            </div>
+
+            {/* Remove ElevenLabs API Key */}
+            {elevenLabsKeyStatus && (
+              <div className="pt-2">
+                <Button
+                  onClick={removeElevenLabsKey}
+                  variant="destructive"
+                  size="sm"
+                  disabled={isLoading}
+                >
+                  Remove ElevenLabs API Key
+                </Button>
+              </div>
+            )}
+
+            <div className="text-sm text-muted-foreground">
+              <p>• Required for text-to-speech functionality</p>
+              <p>• Your API key is encrypted and stored securely</p>
               <p>• You can remove your key at any time</p>
             </div>
           </CardContent>

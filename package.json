@@ -8,7 +8,13 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:s3": "npm run build && aws s3 sync dist/ s3://teamloop-voiceloop --delete",
+    "deploy:cloudfront": "npm run build && aws s3 sync dist/ s3://teamloop-voiceloop --delete && echo 'Invalidate CloudFront cache manually'",
+    "deploy:quick": "chmod +x deploy-s3.sh && ./deploy-s3.sh",
+    "deploy:windows": "powershell -ExecutionPolicy Bypass -File deploy-s3.ps1",
+    "setup:aws": "aws s3 mb s3://teamloop-voiceloop --region us-east-1 && aws s3 website s3://teamloop-voiceloop --index-document index.html --error-document index.html",
+    "test:voice": "npm run dev & echo 'Navigate to http://localhost:5173/dashboard to test VoiceLoop'"
   },
   "dependencies": {
     "@elevenlabs/elevenlabs-js": "^2.12.0",

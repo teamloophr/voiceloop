@@ -87,37 +87,37 @@ All colors MUST be HSL for optimal theming support.
     --warning-foreground: 240 10% 8%;
   }
 
-  /* True Dark Mode - Carefully crafted for optimal readability and visual comfort */
+  /* True Dark Mode - Pure black for optimal contrast and modern aesthetic */
   .dark {
-    --background: 240 10% 4%;
-    --foreground: 240 5% 95%;
+    --background: 0 0% 0%;         /* True black */
+    --foreground: 0 0% 100%;       /* Pure white */
 
-    --card: 240 8% 6%;
-    --card-foreground: 240 5% 95%;
+    --card: 0 0% 3%;               /* Very dark gray for cards */
+    --card-foreground: 0 0% 100%;
 
-    --popover: 240 8% 6%;
-    --popover-foreground: 240 5% 95%;
+    --popover: 0 0% 3%;            /* Very dark gray for popovers */
+    --popover-foreground: 0 0% 100%;
 
     /* Primary maintains Teamloop brand identity in dark mode */
     --primary: 207 47% 32%;        /* #2C5F7A - Dark Teal/Blue */
-    --primary-foreground: 240 10% 4%;
+    --primary-foreground: 0 0% 100%;
     --primary-glow: 207 47% 40%;
 
     --secondary: 207 20% 75%;      /* #A8BCC7 - Light Gray/Blue */
-    --secondary-foreground: 240 5% 95%;
+    --secondary-foreground: 0 0% 0%;
 
-    --muted: 207 20% 75%;
-    --muted-foreground: 240 5% 64%;
+    --muted: 0 0% 8%;              /* Dark gray for muted elements */
+    --muted-foreground: 0 0% 65%;
 
     /* Accent - Teamloop Gold */
     --accent: 45 65% 52%;          /* #D4AF37 - Gold/Orange */
-    --accent-foreground: 240 10% 4%;
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 240 5% 95%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 240 4% 18%;
-    --input: 240 4% 18%;
+    --border: 0 0% 12%;            /* Dark gray borders */
+    --input: 0 0% 12%;
     --ring: 239 84% 67%;
 
     /* Dark mode specific gradients */
@@ -131,9 +131,9 @@ All colors MUST be HSL for optimal theming support.
     --shadow-glow: 0 0 40px hsl(var(--primary) / 0.2);
 
     --success: 142 76% 36%;
-    --success-foreground: 240 5% 95%;
+    --success-foreground: 0 0% 100%;
     --warning: 38 92% 50%;
-    --warning-foreground: 240 10% 4%;
+    --warning-foreground: 0 0% 0%;
   }
 }
 
@@ -145,4 +145,120 @@ All colors MUST be HSL for optimal theming support.
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Custom gradients */
+.bg-gradient-primary {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-glow)) 100%);
+  /* Fallback for debugging */
+  background: linear-gradient(135deg, #2C5F7A 0%, #3A7A9A 100%);
+}
+
+.bg-gradient-hero {
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+  /* Fallback for debugging */
+  background: linear-gradient(135deg, #2C5F7A 0%, #D4AF37 100%);
+}
+
+.bg-gradient-card {
+  background: linear-gradient(145deg, hsl(var(--card)), hsl(var(--background)));
+}
+
+/* Gradient text utilities */
+.bg-clip-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.text-transparent {
+  color: transparent;
+}
+
+/* Ensure gradient text works properly */
+.bg-gradient-primary.bg-clip-text.text-transparent,
+.bg-gradient-hero.bg-clip-text.text-transparent {
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* Additional specificity for gradient text */
+h1 .bg-gradient-hero.bg-clip-text.text-transparent,
+h2 .bg-gradient-primary.bg-clip-text.text-transparent,
+h3 .bg-gradient-primary.bg-clip-text.text-transparent {
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+.shadow-glow {
+  box-shadow: 0 0 20px rgba(44, 95, 122, 0.3);
+}
+
+.shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+.shadow-medium {
+  box-shadow: var(--shadow-medium);
+}
+
+/* Floating Chat Interface Styles */
+.floating-chat-resize-handle {
+  position: absolute;
+  background: transparent;
+  transition: all 0.2s ease;
+  border-radius: 2px;
+}
+
+.floating-chat-resize-handle:hover {
+  background: rgba(44, 95, 122, 0.15);
+  transform: scale(1.2);
+}
+
+.floating-chat-resize-handle:active {
+  background: rgba(44, 95, 122, 0.25);
+  transform: scale(1.1);
+}
+
+/* Corner resize handles */
+.floating-chat-resize-handle.corner {
+  width: 8px;
+  height: 8px;
+}
+
+/* Edge resize handles */
+.floating-chat-resize-handle.edge {
+  width: 4px;
+  height: 4px;
+}
+
+/* Drag handle styles */
+.drag-handle {
+  cursor: grab;
+  transition: background-color 0.2s ease;
+}
+
+.drag-handle:hover {
+  background: rgba(44, 95, 122, 0.05);
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+  background: rgba(44,95, 122, 0.1);
+}
+
+/* Prevent text selection during drag/resize */
+.floating-chat-dragging {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Smooth transitions for size changes */
+.floating-chat-transition {
+  transition: width 0.1s ease, height 0.1s ease;
 }

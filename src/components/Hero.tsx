@@ -1,12 +1,16 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight, Play, CheckCircle } from "lucide-react"
+import { Link } from "react-router-dom"
 
 export function Hero() {
   return (
     <section className="relative pt-32 pb-20 overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-accent/5 to-background" />
+      
+      {/* Accent Top Bar - Light mode only */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/30 via-accent/50 to-primary/30"></div>
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">
@@ -29,10 +33,12 @@ export function Hero() {
 
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button size="lg" className="bg-gradient-primary hover:opacity-90 shadow-glow group">
-              Launch Teamloop
-              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <Link to="/dashboard">
+              <Button size="lg" className="bg-gradient-primary hover:opacity-90 shadow-glow group">
+                Launch VoiceLoop
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
             <Button size="lg" variant="outline" className="group">
               <Play className="mr-2 h-4 w-4" />
               AI Demo

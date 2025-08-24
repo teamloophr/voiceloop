@@ -1,0 +1,207 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Teamloop + VoiceLoop Infrastructure - S3 Bucket with CloudFront Distribution'
+
+Parameters:
+  BucketName:
+    Type: String
+    Default: 'teamloop-voiceloop'
+    Description: 'Name of the S3 bucket for hosting the application'
+  
+  DomainName:
+    Type: String
+    Default: ''
+    Description: 'Custom domain name (optional)'
+  
+  CertificateArn:
+    Type: String
+    Default: ''
+    Description: 'ARN of SSL certificate for custom domain (optional)'
+
+Resources:
+  # S3 Bucket for static website hosting
+  WebsiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders: ['*']
+            AllowedMethods: [GET, HEAD]
+            AllowedOrigins: ['*']
+            ExposeHeaders: []
+            MaxAge: 3000
+
+  # Bucket Policy for public read access
+  WebsiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref WebsiteBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: PublicReadGetObject
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Sub '${WebsiteBucket}/*'
+
+  # CloudFront Distribution for HTTPS and performance
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+          - DomainName: !GetAtt WebsiteBucket.RegionalDomainName
+            Id: S3Origin
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}'
+        
+        Enabled: true
+        DefaultRootObject: index.html
+        DefaultCacheBehavior:
+          TargetOriginId: S3Origin
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [GET, HEAD, OPTIONS]
+          CachedMethods: [GET, HEAD]
+          Compress: true
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: none
+          MinTTL: 0
+          DefaultTTL: 86400
+          MaxTTL: 31536000
+        
+        # Custom error responses for SPA routing
+        CustomErrorResponses:
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+          - ErrorCode: 404
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+        
+        # Price class for cost optimization
+        PriceClass: PriceClass_100
+        
+        # Custom domain configuration (if provided)
+        Aliases: !If 
+          - HasCustomDomain
+          [!Ref DomainName]
+          !Ref AWS::NoValue
+        
+        # SSL certificate (if provided)
+        ViewerCertificate: !If
+          - HasCustomDomain
+          CertificateArn: !Ref CertificateArn
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
+          !Ref AWS::NoValue
+
+  # CloudFront Origin Access Identity
+  CloudFrontOriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: !Sub 'OAI for ${BucketName}'
+
+  # Route 53 Hosted Zone (if custom domain provided)
+  HostedZone:
+    Type: AWS::Route53::HostedZone
+    Condition: HasCustomDomain
+    Properties:
+      Name: !Ref DomainName
+
+  # Route 53 A Record for custom domain
+  DomainARecord:
+    Type: AWS::Route53::RecordSet
+    Condition: HasCustomDomain
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: !Ref DomainName
+      Type: A
+      AliasTarget:
+        DNSName: !GetAtt CloudFrontDistribution.DomainName
+        HostedZoneId: Z2FDTNDATAQYW2 # CloudFront hosted zone ID
+
+  # Route 53 AAAA Record for IPv6
+  DomainAAAARecord:
+    Type: AWS::Route53::RecordSet
+    Condition: HasCustomDomain
+    Properties:
+      HostedZoneId: !Ref HostedZone
+      Name: !Ref DomainName
+      Type: AAAA
+      AliasTarget:
+        DNSName: !GetAtt CloudFrontDistribution.DomainName
+        HostedZoneId: Z2FDTNDATAQYW2 # CloudFront hosted zone ID
+
+Conditions:
+  HasCustomDomain: !Not [!Equals [!Ref DomainName, '']]
+
+Outputs:
+  WebsiteBucketName:
+    Description: 'Name of the S3 bucket'
+    Value: !Ref WebsiteBucket
+    Export:
+      Name: !Sub '${AWS::StackName}-WebsiteBucketName'
+
+  WebsiteBucketDomainName:
+    Description: 'Domain name of the S3 bucket'
+    Value: !GetAtt WebsiteBucket.DomainName
+    Export:
+      Name: !Sub '${AWS::StackName}-WebsiteBucketDomainName'
+
+  WebsiteBucketRegionalDomainName:
+    Description: 'Regional domain name of the S3 bucket'
+    Value: !GetAtt WebsiteBucket.RegionalDomainName
+    Export:
+      Name: !Sub '${AWS::StackName}-WebsiteBucketRegionalDomainName'
+
+  CloudFrontDistributionId:
+    Description: 'ID of the CloudFront distribution'
+    Value: !Ref CloudFrontDistribution
+    Export:
+      Name: !Sub '${AWS::StackName}-CloudFrontDistributionId'
+
+  CloudFrontDistributionDomainName:
+    Description: 'Domain name of the CloudFront distribution'
+    Value: !GetAtt CloudFrontDistribution.DomainName
+    Export:
+      Name: !Sub '${AWS::StackName}-CloudFrontDistributionDomainName'
+
+  WebsiteURL:
+    Description: 'URL of the website'
+    Value: !If
+      - HasCustomDomain
+      - !Sub 'https://${DomainName}'
+      - !Sub 'https://${CloudFrontDistribution.DomainName}'
+    Export:
+      Name: !Sub '${AWS::StackName}-WebsiteURL'
+
+  S3WebsiteURL:
+    Description: 'S3 website URL (direct)'
+    Value: !Sub 'http://${WebsiteBucket}.s3-website-${AWS::Region}.amazonaws.com'
+    Export:
+      Name: !Sub '${AWS::StackName}-S3WebsiteURL'
+
+  DeploymentInstructions:
+    Description: 'Instructions for deploying the application'
+    Value: !Sub |
+      To deploy your Teamloop + VoiceLoop application:
+      
+      1. Build the application: npm run build
+      2. Sync to S3: aws s3 sync dist/ s3://${WebsiteBucket} --delete
+      3. Invalidate CloudFront cache: aws cloudfront create-invalidation --distribution-id ${CloudFrontDistribution} --paths "/*"
+      
+      Your application will be available at: ${WebsiteURL}
+      
+      Test VoiceLoop by navigating to the dashboard and clicking the VoiceLoop button!
