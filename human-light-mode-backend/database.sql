@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS user_settings (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
     openai_api_key TEXT, -- Encrypted API key storage
+    elevenlabs_api_key TEXT, -- Encrypted ElevenLabs API key storage
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     UNIQUE(user_id)

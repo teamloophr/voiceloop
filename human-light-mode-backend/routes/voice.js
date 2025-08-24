@@ -4,6 +4,7 @@ const router = express.Router();
 const { authenticateUser } = require('../auth');
 const database = require('../database');
 const openaiService = require('../openaiService');
+const elevenLabsService = require('../elevenLabsService');
 
 // Configure multer for audio file uploads
 const upload = multer({
@@ -171,41 +172,74 @@ router.post('/transcribe-and-send/:conversationId', authenticateUser, upload.sin
     }
 });
 
-// Generate speech from text (Text-to-Speech)
+// Generate speech from text using ElevenLabs (Enhanced TTS)
 router.post('/generate-speech', authenticateUser, async (req, res) => {
     try {
-        const { text, voice = 'alloy', speed = 1.0 } = req.body;
+        const { text, voiceId = '21m00Tcm4TlvDq8ikWAM', useElevenLabs = true } = req.body;
 
         if (!text || text.trim().length === 0) {
             return res.status(400).json({ error: 'Text is required' });
         }
 
-        if (text.length > 4096) {
-            return res.status(400).json({ error: 'Text is too long. Maximum 4096 characters.' });
+        if (text.length > 5000) {
+            return res.status(400).json({ error: 'Text is too long. Maximum 5000 characters for ElevenLabs.' });
         }
 
-        // Get user's OpenAI API key
-        const userSettings = await database.getUserSettings(req.userId);
-        const userApiKey = userSettings?.openai_api_key;
-
-        const options = {
-            voice: voice,
-            speed: speed,
-            responseFormat: 'mp3'
-        };
-
         try {
-            // Generate speech
-            const audioResponse = await openaiService.generateSpeech(text, userApiKey, options);
+            let audioResponse;
             
-            // Set appropriate headers for audio response
-            res.set({
-                'Content-Type': 'audio/mpeg',
-                'Content-Disposition': 'attachment; filename="speech.mp3"'
-            });
+            if (useElevenLabs) {
+                // Get user's ElevenLabs API key
+                const userSettings = await database.getUserSettings(req.userId);
+                const userApiKey = userSettings?.elevenlabs_api_key;
 
-            // Stream the audio response
-            audioResponse.body.pipe(res);
+                if (!userApiKey) {
+                    return res.status(400).json({ 
+                        error: 'ElevenLabs API key not configured. Please add your API key in settings.' 
+                    });
+                }
+
+                // Generate speech using ElevenLabs
+                audioResponse = await elevenLabsService.generateSpeech(text, userApiKey, {
+                    voiceId: voiceId
+                });
+
+                // Set appropriate headers for audio response
+                res.set({
+                    'Content-Type': 'audio/mpeg',
+                    'Content-Disposition': 'attachment; filename="elevenlabs-speech.mp3"'
+                });
+
+                // Send the audio buffer
+                res.send(audioResponse);
+            } else {
+                // Fallback to OpenAI TTS
+                const userSettings = await database.getUserSettings(req.userId);
+                const userApiKey = userSettings?.openai_api_key;
+
+                if (!userApiKey) {
+                    return res.status(400).json({ 
+                        error: 'OpenAI API key not configured. Please add your API key in settings.' 
+                    });
+                }
+
+                const options = {
+                    voice: 'alloy',
+                    responseFormat: 'mp3'
+                };
+
+                audioResponse = await openaiService.generateSpeech(text, userApiKey, options);
+                
+                // Set appropriate headers for audio response
+                res.set({
+                    'Content-Type': 'audio/mpeg',
+                    'Content-Disposition': 'attachment; filename="openai-speech.mp3"'
+                });
+
+                // Stream the audio response
+                audioResponse.body.pipe(res);
+                return;
+            }
 
         } catch (speechError) {
             console.error('Speech generation error:', speechError);
@@ -250,17 +284,178 @@ router.get('/languages', (req, res) => {
 });
 
 // Get supported voices for text-to-speech
-router.get('/voices', (req, res) => {
-    const supportedVoices = [
-        { id: 'alloy', name: 'Alloy', description: 'Neutral, balanced voice' },
-        { id: 'echo', name: 'Echo', description: 'Clear, professional voice' },
-        { id: 'fable', name: 'Fable', description: 'Warm, storytelling voice' },
-        { id: 'onyx', name: 'Onyx', description: 'Deep, authoritative voice' },
-        { id: 'nova', name: 'Nova', description: 'Bright, energetic voice' },
-        { id: 'shimmer', name: 'Shimmer', description: 'Gentle, soothing voice' }
-    ];
+router.get('/voices', async (req, res) => {
+    try {
+        // Get user's ElevenLabs API key
+        const userSettings = await database.getUserSettings(req.userId);
+        const userApiKey = userSettings?.elevenlabs_api_key;
 
-    res.json({ voices: supportedVoices });
+        if (userApiKey) {
+            try {
+                // Get ElevenLabs voices
+                const elevenLabsVoices = await elevenLabsService.getVoices(userApiKey);
+                
+                // Add OpenAI voices as fallback
+                const openaiVoices = [
+                    { id: 'alloy', name: 'Alloy (OpenAI)', description: 'Neutral, balanced voice', provider: 'openai' },
+                    { id: 'echo', name: 'Echo (OpenAI)', description: 'Clear, professional voice', provider: 'openai' },
+                    { id: 'fable', name: 'Fable (OpenAI)', description: 'Warm, storytelling voice', provider: 'openai' },
+                    { id: 'onyx', name: 'Onyx (OpenAI)', description: 'Deep, authoritative voice', provider: 'openai' },
+                    { id: 'nova', name: 'Nova (OpenAI)', description: 'Bright, energetic voice', provider: 'openai' },
+                    { id: 'shimmer', name: 'Shimmer (OpenAI)', description: 'Gentle, soothing voice', provider: 'openai' }
+                ];
+
+                // Combine voices, prioritizing ElevenLabs
+                const allVoices = [
+                    ...elevenLabsVoices.map(v => ({ ...v, provider: 'elevenlabs' })),
+                    ...openaiVoices
+                ];
+
+                res.json({ 
+                    voices: allVoices,
+                    primaryProvider: 'elevenlabs',
+                    fallbackProvider: 'openai'
+                });
+            } catch (elevenLabsError) {
+                console.error('Error fetching ElevenLabs voices:', elevenLabsError);
+                
+                // Fallback to OpenAI voices only
+                const openaiVoices = [
+                    { id: 'alloy', name: 'Alloy', description: 'Neutral, balanced voice', provider: 'openai' },
+                    { id: 'echo', name: 'Echo', description: 'Clear, professional voice', provider: 'openai' },
+                    { id: 'fable', name: 'Fable', description: 'Warm, storytelling voice', provider: 'openai' },
+                    { id: 'onyx', name: 'Onyx', description: 'Deep, authoritative voice', provider: 'openai' },
+                    { id: 'nova', name: 'Nova', description: 'Bright, energetic voice', provider: 'openai' },
+                    { id: 'shimmer', name: 'Shimmer', description: 'Gentle, soothing voice', provider: 'openai' }
+                ];
+
+                res.json({ 
+                    voices: openaiVoices,
+                    primaryProvider: 'openai',
+                    fallbackProvider: null,
+                    warning: 'ElevenLabs voices unavailable, using OpenAI fallback'
+                });
+            }
+        } else {
+            // No ElevenLabs API key, return OpenAI voices only
+            const openaiVoices = [
+                { id: 'alloy', name: 'Alloy', description: 'Neutral, balanced voice', provider: 'openai' },
+                { id: 'echo', name: 'Echo', description: 'Clear, professional voice', provider: 'openai' },
+                { id: 'fable', name: 'Fable', description: 'Warm, storytelling voice', provider: 'openai' },
+                { id: 'onyx', name: 'Onyx', description: 'Deep, authoritative voice', provider: 'openai' },
+                { id: 'nova', name: 'Nova', description: 'Bright, energetic voice', provider: 'openai' },
+                { id: 'shimmer', name: 'Shimmer', description: 'Gentle, soothing voice', provider: 'openai' }
+            ];
+
+            res.json({ 
+                voices: openaiVoices,
+                primaryProvider: 'openai',
+                fallbackProvider: null,
+                message: 'Configure ElevenLabs API key for enhanced voice options'
+            });
+        }
+    } catch (error) {
+        console.error('Error in voices endpoint:', error);
+        res.status(500).json({ error: 'Failed to fetch voices' });
+    }
+});
+
+// Get ElevenLabs voice details
+router.get('/voices/:voiceId', authenticateUser, async (req, res) => {
+    try {
+        const { voiceId } = req.params;
+        
+        // Get user's ElevenLabs API key
+        const userSettings = await database.getUserSettings(req.userId);
+        const userApiKey = userSettings?.elevenlabs_api_key;
+
+        if (!userApiKey) {
+            return res.status(400).json({ 
+                error: 'ElevenLabs API key not configured' 
+            });
+        }
+
+        const voice = await elevenLabsService.getVoice(voiceId, userApiKey);
+        res.json({ voice });
+    } catch (error) {
+        console.error('Error fetching voice details:', error);
+        res.status(500).json({ error: 'Failed to fetch voice details' });
+    }
+});
+
+// Get user's ElevenLabs subscription info
+router.get('/subscription', authenticateUser, async (req, res) => {
+    try {
+        // Get user's ElevenLabs API key
+        const userSettings = await database.getUserSettings(req.userId);
+        const userApiKey = userSettings?.elevenlabs_api_key;
+
+        if (!userApiKey) {
+            return res.status(400).json({ 
+                error: 'ElevenLabs API key not configured' 
+            });
+        }
+
+        const subscription = await elevenLabsService.getUserSubscription(userApiKey);
+        res.json({ subscription });
+    } catch (error) {
+        console.error('Error fetching subscription:', error);
+        res.status(500).json({ error: 'Failed to fetch subscription' });
+    }
+});
+
+// Clone a voice (if user has permission)
+router.post('/voices/clone', authenticateUser, upload.single('audio'), async (req, res) => {
+    try {
+        const { name } = req.body;
+        
+        if (!req.file) {
+            return res.status(400).json({ error: 'Audio file is required for voice cloning' });
+        }
+
+        if (!name || name.trim().length === 0) {
+            return res.status(400).json({ error: 'Voice name is required' });
+        }
+
+        // Get user's ElevenLabs API key
+        const userSettings = await database.getUserSettings(req.userId);
+        const userApiKey = userSettings?.elevenlabs_api_key;
+
+        if (!userApiKey) {
+            return res.status(400).json({ 
+                error: 'ElevenLabs API key not configured' 
+            });
+        }
+
+        const voice = await elevenLabsService.cloneVoice(name, [req.file.buffer], userApiKey);
+        res.json({ voice, success: true });
+    } catch (error) {
+        console.error('Error cloning voice:', error);
+        res.status(500).json({ error: 'Failed to clone voice' });
+    }
+});
+
+// Delete a cloned voice
+router.delete('/voices/:voiceId', authenticateUser, async (req, res) => {
+    try {
+        const { voiceId } = req.params;
+        
+        // Get user's ElevenLabs API key
+        const userSettings = await database.getUserSettings(req.userId);
+        const userApiKey = userSettings?.elevenlabs_api_key;
+
+        if (!userApiKey) {
+            return res.status(400).json({ 
+                error: 'ElevenLabs API key not configured' 
+            });
+        }
+
+        const result = await elevenLabsService.deleteVoice(voiceId, userApiKey);
+        res.json(result);
+    } catch (error) {
+        console.error('Error deleting voice:', error);
+        res.status(500).json({ error: 'Failed to delete voice' });
+    }
 });
 
 module.exports = router;

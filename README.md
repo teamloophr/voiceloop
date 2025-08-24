@@ -38,7 +38,7 @@ Teamloop/
 │   ├── ElevenLabs TTS
 │   ├── Authentication
 │   └── API Endpoints
-└── Database (Pending PM Decision)
+└── Database (PostgreSQL)
     ├── User Management
     ├── Conversation History
     └── Employee Data
@@ -278,7 +278,6 @@ Teamloop is deployed to AWS S3 for production hosting:
 - [x] Component library setup
 
 ### 🔄 In Progress
-- [ ] Database strategy decision (PM pending)
 - [ ] Backend API integration
 - [ ] Authentication system
 - [ ] Production deployment
