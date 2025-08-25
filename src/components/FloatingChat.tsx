@@ -73,6 +73,8 @@ export const FloatingChat: React.FC = () => {
   const [openaiKey, setOpenaiKey] = useState('');
   const [elevenLabsKey, setElevenLabsKey] = useState('');
   const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
+  const [documentContext, setDocumentContext] = useState<string>(''); // Store document context for AI
+  const [documentSuggestions, setDocumentSuggestions] = useState<string[]>([]); // Document-related suggestions
   
   // Dragging state
   const [position, setPosition] = useState<Position>(() => {
@@ -250,12 +252,31 @@ export const FloatingChat: React.FC = () => {
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsTyping(true);
+    scrollToBottom();
 
     try {
-      // Generate AI response using OpenAI
-      const aiResponse = await openaiService.generateResponse([
+      // Prepare context for AI response
+      let contextMessages = [
         { role: 'user', content: inputValue.trim() }
-      ]);
+      ];
+      
+      // If we have document context and the user is asking about documents, include it
+      if (documentContext && (
+        inputValue.toLowerCase().includes('document') || 
+        inputValue.toLowerCase().includes('file') || 
+        inputValue.toLowerCase().includes('resume') ||
+        inputValue.toLowerCase().includes('upload') ||
+        uploadedFiles.length > 0
+      )) {
+        const contextPrompt = `Context about uploaded documents:\n${documentContext}\n\nUser question: ${inputValue.trim()}\n\nPlease provide a helpful response considering the uploaded document information.`;
+        contextMessages = [
+          { role: 'system', content: 'You are VoiceLoop, an AI-powered HR assistant. You have access to uploaded documents and can answer questions about them.' },
+          { role: 'user', content: contextPrompt }
+        ];
+      }
+
+      // Generate AI response using OpenAI
+      const aiResponse = await openaiService.generateResponse(contextMessages);
 
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -265,6 +286,7 @@ export const FloatingChat: React.FC = () => {
       };
 
       setMessages(prev => [...prev, aiMessage]);
+      scrollToBottom();
     } catch (error) {
       console.error('Error generating AI response:', error);
       const fallbackMessage: Message = {
@@ -274,6 +296,7 @@ export const FloatingChat: React.FC = () => {
         timestamp: new Date()
       };
       setMessages(prev => [...prev, fallbackMessage]);
+      scrollToBottom();
     } finally {
       setIsTyping(false);
     }
@@ -332,6 +355,7 @@ export const FloatingChat: React.FC = () => {
       };
 
       setMessages(prev => [...prev, userMessage]);
+      scrollToBottom();
 
       // Generate AI response
       const aiResponse = await openaiService.generateResponse([
@@ -346,6 +370,7 @@ export const FloatingChat: React.FC = () => {
       };
 
       setMessages(prev => [...prev, aiMessage]);
+      scrollToBottom();
     } catch (error) {
       console.error('Error processing voice message:', error);
       const errorMessage: Message = {
@@ -355,6 +380,7 @@ export const FloatingChat: React.FC = () => {
         timestamp: new Date()
       };
       setMessages(prev => [...prev, errorMessage]);
+      scrollToBottom();
     }
   };
 
@@ -389,6 +415,7 @@ export const FloatingChat: React.FC = () => {
   const handleSuggestionClick = (command: string) => {
     setInputValue(command);
     setShowSuggestions(false);
+    scrollToBottom();
   };
 
   const clearChat = () => {
@@ -400,6 +427,7 @@ export const FloatingChat: React.FC = () => {
         timestamp: new Date()
       }
     ]);
+    scrollToBottom();
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -732,18 +760,41 @@ Is there anything specific you'd like to know about this document?`,
               <div className="border-t p-4 space-y-3">
                 {/* Command Suggestions */}
                 {showSuggestions && (
-                  <div className="flex flex-wrap gap-2">
-                    {voiceCommands.slice(0, 6).map((command, index) => (
-                      <Button
-                        key={index}
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleSuggestionClick(command.patterns[0])}
-                        className="text-xs h-7"
-                      >
-                        {command.patterns[0]}
-                      </Button>
-                    ))}
+                  <div className="space-y-3">
+                    {/* Voice Commands */}
+                    <div className="flex flex-wrap gap-2">
+                      {voiceCommands.slice(0, 6).map((command, index) => (
+                        <Button
+                          key={index}
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleSuggestionClick(command.patterns[0])}
+                          className="text-xs h-7"
+                        >
+                          {command.patterns[0]}
+                        </Button>
+                      ))}
+                    </div>
+                    
+                    {/* Document Suggestions */}
+                    {documentSuggestions.length > 0 && (
+                      <div>
+                        <div className="text-xs text-muted-foreground mb-2">💡 Ask about your documents:</div>
+                        <div className="flex flex-wrap gap-2">
+                          {documentSuggestions.slice(0, 4).map((suggestion, index) => (
+                            <Button
+                              key={`doc-${index}`}
+                              variant="outline"
+                              size="sm"
+                              onClick={() => handleSuggestionClick(suggestion)}
+                              className="text-xs h-7 bg-green-50 hover:bg-green-100 border-green-200"
+                            >
+                              {suggestion}
+                            </Button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -807,6 +858,24 @@ Is there anything specific you'd like to know about this document?`,
                   </Button>
                 </div>
 
+                {/* Document Context Indicator */}
+                {uploadedFiles.length > 0 && (
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground bg-blue-50 dark:bg-blue-950/20 px-3 py-2 rounded-md">
+                    <Paperclip className="h-3 w-3" />
+                    <span>
+                      {uploadedFiles.length} document{uploadedFiles.length > 1 ? 's' : ''} available for context
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setShowFileUpload(true)}
+                      className="h-5 px-2 text-xs ml-auto"
+                    >
+                      Manage Files
+                    </Button>
+                  </div>
+                )}
+
                 {/* Action Buttons */}
                 <div className="flex justify-between items-center">
                   <Button
@@ -834,10 +903,60 @@ Is there anything specific you'd like to know about this document?`,
         <ChatFileUpload
           onFileUploaded={(file) => {
             setUploadedFiles(prev => [...prev, file]);
-            // Add a system message about the uploaded file
+            
+            // Create a more informative message about the uploaded file
+            let messageContent = `📎 File uploaded: ${file.filename} (${file.fileType.toUpperCase()})`;
+            
+            // If we have structured data, include it in the message
+            if (file.structuredData && Object.keys(file.structuredData).length > 0) {
+              messageContent += `\n\n📋 Extracted Information:\n`;
+              Object.entries(file.structuredData).forEach(([key, value]) => {
+                if (value && value !== 'null' && value !== 'None') {
+                  const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                  messageContent += `• ${label}: ${value}\n`;
+                }
+              });
+              messageContent += `\n💡 You can now ask me questions about this document!`;
+            }
+            
+            // Build document context for AI responses
+            let context = `Document: ${file.filename}\nType: ${file.fileType.toUpperCase()}\n`;
+            if (file.structuredData && Object.keys(file.structuredData).length > 0) {
+              context += `Extracted Data:\n`;
+              Object.entries(file.structuredData).forEach(([key, value]) => {
+                if (value && value !== 'null' && value !== 'None') {
+                  const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                  context += `- ${label}: ${value}\n`;
+                }
+              });
+            }
+            
+            // Update document context
+            setDocumentContext(prev => prev + '\n\n' + context);
+            
+            // Generate document-related suggestions
+            const suggestions = [];
+            if (file.structuredData && Object.keys(file.structuredData).length > 0) {
+              if (file.structuredData.full_name) {
+                suggestions.push(`Tell me about ${file.structuredData.full_name}'s background`);
+                suggestions.push(`What are ${file.structuredData.full_name}'s qualifications?`);
+              }
+              if (file.structuredData.position) {
+                suggestions.push(`What does a ${file.structuredData.position} do?`);
+                suggestions.push(`Is this candidate qualified for ${file.structuredData.position}?`);
+              }
+              if (file.structuredData.department) {
+                suggestions.push(`What's the ${file.structuredData.department} department like?`);
+              }
+            }
+            suggestions.push(`Summarize this document for me`);
+            suggestions.push(`What are the key points in this document?`);
+            
+            setDocumentSuggestions(suggestions);
+            
             const newMessage: Message = {
               id: Date.now().toString(),
-              content: `📎 File uploaded: ${file.filename} (${file.fileType.toUpperCase()})`,
+              content: messageContent,
               sender: 'assistant',
               timestamp: new Date()
             };

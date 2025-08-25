@@ -39,7 +39,7 @@ const RAGQuery: React.FC<RAGQueryProps> = ({
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/files/query', {
+              const response = await fetch('https://main.d1fx10pzvtm51o.amplifyapp.com/api/files/query', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

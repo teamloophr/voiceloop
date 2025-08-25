@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Play, CheckCircle } from "lucide-react"
+import { ArrowRight, Play, CheckCircle, Bot } from "lucide-react"
 import { Link } from "react-router-dom"
 
 export function Hero() {
@@ -39,10 +39,10 @@ export function Hero() {
                 <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Link to="/documents">
+            <Link to="/voice-loop">
               <Button size="lg" variant="outline" className="group">
-                <Play className="mr-2 h-4 w-4" />
-                Document Analysis
+                <Bot className="mr-2 h-4 w-4" />
+                VoiceLoop Chat
               </Button>
             </Link>
           </div>

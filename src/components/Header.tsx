@@ -11,9 +11,7 @@ export function Header() {
   const { user, signOut } = useAuth()
 
   const navigation = [
-    { name: 'Dashboard', href: '/dashboard' },
-    { name: 'Document Analysis', href: '/documents' },
-    { name: 'Chat', href: '/chat' }
+    // Navigation items removed as requested
   ]
 
   const handleSignOut = async () => {

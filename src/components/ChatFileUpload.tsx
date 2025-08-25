@@ -12,6 +12,7 @@ interface ChatFileData {
   uploadDate: Date;
   preview?: string;
   embeddings?: any[];
+  structuredData?: any; // Add structured data from AI analysis
 }
 
 interface ChatFileUploadProps {
@@ -33,6 +34,10 @@ const ChatFileUpload: React.FC<ChatFileUploadProps> = ({
   });
   const [dragActive, setDragActive] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<ChatFileData[]>([]);
+  const [showSummary, setShowSummary] = useState(false);
+  const [currentFileData, setCurrentFileData] = useState<any>(null);
+  const [aiSummary, setAiSummary] = useState<string>('');
+  const [structuredData, setStructuredData] = useState<any>({});
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -103,7 +108,7 @@ const ChatFileUpload: React.FC<ChatFileUploadProps> = ({
         }));
       }, 200);
 
-      const response = await fetch('http://localhost:5000/api/files/upload', {
+              const response = await fetch('https://main.d1fx10pzvtm51o.amplifyapp.com/api/upload', {
         method: 'POST',
         body: formData,
       });
@@ -124,11 +129,20 @@ const ChatFileUpload: React.FC<ChatFileUploadProps> = ({
           fileSize: file.size,
           uploadDate: new Date(),
           preview: result.data.preview,
-          embeddings: result.data.embeddings
+          embeddings: result.data.embeddings,
+          structuredData: result.data.structured_data || {}
         };
 
         setUploadedFiles(prev => [newFile, ...prev]);
         onFileUploaded(newFile);
+
+        // Show AI summary and ask for decision
+        if (result.data.ai_summary) {
+          setAiSummary(result.data.ai_summary);
+          setCurrentFileData(result.data);
+          setStructuredData(result.data.structured_data || {});
+          setShowSummary(true);
+        }
 
         setUploadStatus({
           uploading: false,
@@ -196,6 +210,79 @@ const ChatFileUpload: React.FC<ChatFileUploadProps> = ({
 
   const removeFile = (id: string) => {
     setUploadedFiles(prev => prev.filter(file => file.id !== id));
+  };
+
+  const handleDecision = async (decision: 'save' | 'discard') => {
+    if (!currentFileData) return;
+
+    try {
+              const response = await fetch('https://main.d1fx10pzvtm51o.amplifyapp.com/api/upload/decision', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          decision,
+          file_data: currentFileData,
+          user_id: 'chat-user' // Default user ID for chat
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        if (decision === 'save') {
+          // Document saved to RAG - keep it in the list
+          setUploadStatus({
+            uploading: false,
+            status: 'Document saved to knowledge base for RAG search!',
+            progress: 100,
+            error: ''
+          });
+        } else {
+          // Document discarded - remove from list
+          setUploadedFiles(prev => prev.filter(file => file.filename !== currentFileData.filename));
+          setUploadStatus({
+            uploading: false,
+            status: 'Document discarded successfully!',
+            progress: 100,
+            error: ''
+          });
+        }
+      } else {
+        setUploadStatus({
+          uploading: false,
+          status: `Error: ${result.error}`,
+          progress: 0,
+          error: result.error
+        });
+      }
+
+      // Close summary modal
+      setShowSummary(false);
+      setCurrentFileData(null);
+      setAiSummary('');
+      setStructuredData({});
+
+      // Reset status after 2 seconds
+      setTimeout(() => {
+        setUploadStatus({
+          uploading: false,
+          status: '',
+          progress: 0,
+          error: ''
+        });
+      }, 2000);
+
+    } catch (error) {
+      console.error('Decision error:', error);
+      setUploadStatus({
+        uploading: false,
+        status: `Error: ${error instanceof Error ? error.message : 'Failed to process decision'}`,
+        progress: 0,
+        error: 'Decision failed'
+      });
+    }
   };
 
   return (
@@ -345,6 +432,108 @@ const ChatFileUpload: React.FC<ChatFileUploadProps> = ({
           </div>
         </div>
       </div>
+
+      {/* AI Summary Modal */}
+      {showSummary && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60]">
+          <div className="bg-background rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[80vh] overflow-hidden">
+            {/* Header */}
+            <div className="flex items-center justify-between p-4 border-b border-border">
+              <h3 className="font-semibold text-lg flex items-center gap-2">
+                <Paperclip className="h-5 w-5" />
+                AI Document Summary
+              </h3>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowSummary(false)}
+                className="h-8 w-8 p-0"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+
+            {/* Content */}
+            <div className="p-4 space-y-4 max-h-[60vh] overflow-y-auto">
+              <div className="space-y-3">
+                <h4 className="font-medium text-gray-900 dark:text-gray-100">
+                  Document: {currentFileData?.filename}
+                </h4>
+                
+                <div className="bg-gray-50 dark:bg-gray-900/50 rounded-lg p-4">
+                  <h5 className="font-medium text-gray-900 dark:text-gray-100 mb-2">
+                    AI-Generated Summary:
+                  </h5>
+                  <div className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-line">
+                    {aiSummary}
+                  </div>
+                </div>
+
+                {/* Structured Data Display */}
+                {structuredData && Object.keys(structuredData).length > 0 && (
+                  <div className="bg-green-50 dark:bg-green-950/20 rounded-lg p-4">
+                    <h5 className="font-medium text-green-900 dark:text-green-100 mb-3">
+                      📋 Extracted Document Data:
+                    </h5>
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      {Object.entries(structuredData).map(([key, value]) => {
+                        if (value && value !== 'null' && value !== 'None') {
+                          const label = key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                          return (
+                            <div key={key} className="flex flex-col">
+                              <span className="font-medium text-green-800 dark:text-green-200 text-xs">
+                                {label}:
+                              </span>
+                              <span className="text-green-700 dark:text-green-300">
+                                {String(value)}
+                              </span>
+                            </div>
+                          );
+                        }
+                        return null;
+                      })}
+                    </div>
+                    <div className="mt-3 p-2 bg-blue-50 dark:bg-blue-950/20 rounded text-xs text-blue-700 dark:text-blue-300">
+                      💡 This information is now available for your chat conversation. You can ask questions about the document content.
+                    </div>
+                  </div>
+                )}
+
+                <div className="bg-blue-50 dark:bg-blue-950/20 rounded-lg p-4">
+                  <h5 className="font-medium text-blue-900 dark:text-blue-100 mb-2">
+                    What would you like to do with this document?
+                  </h5>
+                  <p className="text-sm text-blue-700 dark:text-blue-300">
+                    <strong>Save for RAG:</strong> Document will be indexed and searchable in your knowledge base<br/>
+                    <strong>Discard:</strong> Document will be removed and not stored
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="p-4 border-t border-border bg-gray-50 dark:bg-gray-900/50">
+              <div className="flex gap-3">
+                <Button 
+                  onClick={() => handleDecision('discard')} 
+                  variant="outline" 
+                  className="flex-1"
+                >
+                  <X className="h-4 w-4 mr-2" />
+                  Discard Document
+                </Button>
+                <Button 
+                  onClick={() => handleDecision('save')} 
+                  className="flex-1"
+                >
+                  <FileText className="h-4 w-4 mr-2" />
+                  Save for RAG Search
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

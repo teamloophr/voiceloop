@@ -97,7 +97,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ onUploadSuccess, className = ''
         }));
       }, 200);
 
-      const response = await fetch('http://localhost:5000/api/files/upload', {
+              const response = await fetch('https://main.d1fx10pzvtm51o.amplifyapp.com/api/upload', {
         method: 'POST',
         body: formData,
       });

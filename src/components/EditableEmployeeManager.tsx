@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { useSandbox } from '@/contexts/SandboxContext';
 import ResumeUpload from './ResumeUpload';
+import { useEffect } from 'react';
 
 interface EmployeeFormData {
   name: string;
@@ -53,6 +54,41 @@ export const EditableEmployeeManager: React.FC = () => {
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<EmployeeFormData>(initialFormData);
+
+  // Listen for resume data extraction events
+  useEffect(() => {
+    const handleResumeDataExtracted = (event: CustomEvent) => {
+      const extractedData = event.detail;
+      
+      // Map extracted data to form fields
+      const mappedData: Partial<EmployeeFormData> = {};
+      
+      if (extractedData.full_name) mappedData.name = extractedData.full_name;
+      if (extractedData.position) mappedData.position = extractedData.position;
+      if (extractedData.department) mappedData.department = extractedData.department;
+      if (extractedData.email) mappedData.email = extractedData.email;
+      if (extractedData.hire_date) mappedData.hireDate = extractedData.hire_date;
+      if (extractedData.salary) mappedData.salary = extractedData.salary;
+      if (extractedData.performance_score) mappedData.performance = extractedData.performance_score;
+      if (extractedData.pto_days) mappedData.ptoDays = extractedData.pto_days;
+      if (extractedData.manager) mappedData.manager = extractedData.manager;
+      
+      // Update form data with extracted information
+      setFormData(prev => ({ ...prev, ...mappedData }));
+      
+      // Open the add employee form
+      setIsAdding(true);
+      setEditingId(null);
+    };
+
+    // Add event listener
+    window.addEventListener('resumeDataExtracted', handleResumeDataExtracted as EventListener);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resumeDataExtracted', handleResumeDataExtracted as EventListener);
+    };
+  }, []);
 
   const handleInputChange = (field: keyof EmployeeFormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));

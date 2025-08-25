@@ -32,6 +32,15 @@ VoiceLoop is a cutting-edge HR management platform that combines **artificial in
 │ • Document UI    │    │ • User Settings  │    │ • Whisper STT   │
 │ • Chat Interface │    │ • RAG Storage    │    │ • Embeddings    │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
+
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│ VoiceLoop Backend│    │  Supabase       │    │   AI Services   │
+│   (Python/Flask)│◄──►│  (pgvector)     │◄──►│   (OpenAI API)  │
+│                 │    │                 │    │                 │
+│ • Document Proc │    │ • Vector Store  │    │ • GPT-4 Analysis│
+│ • Smart RAG     │    │ • RLS Security  │    │ • Whisper STT   │
+│ • MCP Calendar  │    │ • Real-time     │    │ • Embeddings    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
 ## 🛠️ **Technology Stack**
@@ -61,6 +70,9 @@ VoiceLoop is a cutting-edge HR management platform that combines **artificial in
 - **Git Hooks** - Pre-commit validation
 
 ## 🚀 **Quick Start**
+
+### 🌐 **Live Demo**
+**VoiceLoop is now live at: [https://main.d1fx10pzvtm51o.amplifyapp.com/](https://main.d1fx10pzvtm51o.amplifyapp.com/)**
 
 ### **Prerequisites**
 - Node.js 18+ and npm
@@ -110,7 +122,34 @@ VITE_ELEVENLABS_API_KEY=your_elevenlabs_api_key
 npm run dev
 ```
 
-Visit `http://localhost:5173` to see VoiceLoop in action!
+Visit `http://localhost:5173` to see VoiceLoop in development mode, or use the live version at [https://main.d1fx10pzvtm51o.amplifyapp.com/](https://main.d1fx10pzvtm51o.amplifyapp.com/)!
+
+### **6. VoiceLoop Backend Setup (Optional)**
+For advanced AI features and RAG capabilities:
+
+```bash
+# Navigate to the backend directory
+cd "backend/Building AI Summarization and Unified Calendar Backend"
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Configure environment
+cp env.template .env
+# Edit .env with your Supabase credentials
+
+# Setup database schema
+# Run supabase_schema.sql in your Supabase SQL Editor
+
+# Start the backend server
+python app.py
+```
+
+The backend will run on `https://main.d1fx10pzvtm51o.amplifyapp.com` and provide:
+- Advanced document processing and analysis
+- Smart RAG search with vector embeddings
+- MCP calendar management
+- Voice transcription services
 
 ## 📚 **Core Features Deep Dive**
 
@@ -140,6 +179,16 @@ Advanced document search and retrieval:
 - **Semantic Search**: Find relevant content using natural language queries
 - **Intelligent Retrieval**: AI-powered document recommendations
 - **Knowledge Base**: Build comprehensive organizational knowledge
+
+### **🚀 VoiceLoop Backend Integration**
+
+Advanced AI-powered backend services:
+
+- **Smart Document Processing**: Multi-format support (PDF, DOCX, TXT, CSV, Audio)
+- **Intelligent RAG System**: Supabase-powered vector search with pgvector
+- **MCP Calendar Management**: Natural language calendar commands and smart scheduling
+- **AI-Powered Analysis**: GPT-4 content summarization and key point extraction
+- **Voice Transcription**: OpenAI Whisper integration for audio processing
 
 ### **🔐 Secure User Management**
 

@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { Header } from "@/components/Header"
 import { Hero } from "@/components/Hero"
-import { Features } from "@/components/Features"
 import { DashboardPreview } from "@/components/DashboardPreview"
 import { VoiceDemo } from "@/components/VoiceDemo"
 import { Footer } from "@/components/Footer"
@@ -23,7 +22,6 @@ const Index = () => {
         <Header />
         <main>
           <Hero />
-          <Features />
           
           {/* Sandbox Mode - Editable HR Management */}
           <section className="py-20 bg-background">

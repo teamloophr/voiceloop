@@ -9,7 +9,7 @@ import {
 export function Footer() {
   const socialLinks = [
     { name: "LinkedIn", icon: Linkedin, href: "https://linkedin.com/company/teamloop" },
-    { name: "GitHub", icon: Github, href: "https://github.com/teamloop" },
+    { name: "GitHub", icon: Github, href: "https://github.com/teamloophr/voiceloop" },
   ]
 
   return (

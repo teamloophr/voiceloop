@@ -8,12 +8,10 @@ import { SandboxProvider } from "@/contexts/SandboxContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { FloatingChat } from "@/components/FloatingChat";
 import Index from "./pages/Index";
-import ChatPage from "./pages/ChatPage";
+import VoiceLoopPage from "./pages/VoiceLoopPage";
 import SettingsPage from "./pages/SettingsPage";
-import DashboardPage from "./pages/DashboardPage";
-import DocumentAnalysisPage from "./pages/DocumentAnalysisPage";
 import AuthPage from "./pages/AuthPage";
-import { UserProfile } from "./components/auth/UserProfile";
+import { UserProfile } from "@/components/auth/UserProfile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,10 +34,8 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/auth" element={<AuthPage />} />
                 <Route path="/profile" element={<UserProfile />} />
-                <Route path="/chat" element={<ChatPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/documents" element={<DocumentAnalysisPage />} />
+                <Route path="/voice-loop" element={<VoiceLoopPage />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
