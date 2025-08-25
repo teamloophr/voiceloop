@@ -1,278 +1,287 @@
-# Human Light Mode - VoiceLoop HR Platform
+# 🎤 VoiceLoop - AI-Powered Document Intelligence Platform
 
-A modern, AI-powered HR management platform with integrated voice assistant capabilities, built with React, TypeScript, and Tailwind CSS.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![React](https://img.shields.io/badge/React-18.0.0-blue.svg)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0.0-blue.svg)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-Latest-green.svg)](https://supabase.com/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-API-blue.svg)](https://openai.com/)
 
-## 🚀 Features
+> **Transform your HR workflow with AI-powered document analysis, voice commands, and intelligent automation.**
 
-### Core Platform
-- **HR Management Dashboard** - Comprehensive employee tracking and analytics
-- **VoiceLoop AI Assistant** - AI-powered voice interactions for HR tasks
-- **Sandbox Mode** - Development playground for testing data manipulation
-- **Responsive Design** - Mobile-first approach with desktop optimization
-- **Dark/Light Mode** - True black dark mode with light mode support
+## 🚀 **What is VoiceLoop?**
 
-### AI & Voice Integration
-- **OpenAI Whisper** - Speech-to-text transcription
-- **ElevenLabs TTS** - High-quality text-to-speech
-- **Floating Chat Interface** - Persistent, draggable, resizable chat window
-- **Voice Commands** - Predefined AI suggestions and actions
-- **Real-time Processing** - Instant voice input/output
+VoiceLoop is a cutting-edge HR management platform that combines **artificial intelligence**, **voice commands**, and **smart document processing** to revolutionize how organizations handle human resources. Built with modern web technologies and powered by OpenAI's latest AI models, VoiceLoop provides an intuitive, voice-controlled interface for document analysis, employee management, and HR automation.
 
-### Data Management
-- **Employee Records** - Add, edit, delete employee information
-- **Performance Metrics** - Track KPIs and performance indicators
-- **Activity Feed** - Monitor HR activities and updates
-- **Real-time Updates** - Live data synchronization across components
+### ✨ **Key Features**
 
-## 🏗️ Site Architecture & Navigation
+- 🤖 **AI-Powered Document Analysis** - Intelligent processing of PDFs, DOCX, CSV, and images
+- 🎤 **Voice Commands** - Hands-free operation with natural language processing
+- 🔍 **Smart RAG System** - Retrieval Augmented Generation for intelligent document search
+- 🔐 **Secure Authentication** - User management with Supabase and API key security
+- 📊 **HR Analytics** - Intelligent insights and employee data management
+- 🎯 **Smart Recommendations** - AI suggests document storage and analysis strategies
 
-### Main Landing Page (`/`)
-- **Hero Section** - Platform introduction with VoiceLoop launch button
-- **Features Overview** - Key platform capabilities
-- **HR Management Sandbox** - Editable employee and metrics management
-- **Dashboard Preview** - Platform capabilities showcase
+## 🏗️ **Architecture Overview**
 
-### Dashboard (`/dashboard`)
-- **Header** - Logo (clickable to home), edit mode toggle, settings, theme toggle
-- **VoiceLoop Assistant** - Featured AI chat interface at the top
-- **Metrics Panel** - Key HR metrics with inline editing (sandbox mode)
-- **Analytics Charts** - Visual data representation
-- **Activity Feed** - Recent activities with add functionality (sandbox mode)
-- **Footer** - Company info and status indicators
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   React Frontend │    │  Supabase Backend│    │   AI Services   │
+│   (TypeScript)   │◄──►│   (PostgreSQL)   │◄──►│   (OpenAI API)  │
+│                 │    │                 │    │                 │
+│ • Voice Commands │    │ • Authentication │    │ • GPT-4 Chat    │
+│ • Document UI    │    │ • User Settings  │    │ • Whisper STT   │
+│ • Chat Interface │    │ • RAG Storage    │    │ • Embeddings    │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+```
 
-### Settings (`/settings`)
-- **API Configuration** - OpenAI and ElevenLabs API key management
-- **Theme Preferences** - Dark/light mode settings
-- **User Preferences** - Customizable settings
+## 🛠️ **Technology Stack**
 
-### Chat Interface (`/chat`)
-- **Standalone Chat** - Full-featured voice-enabled AI assistant
-- **API Key Management** - Built-in configuration for voice services
-
-## 🎯 Sandbox Mode - Development Playground
-
-### Purpose
-Sandbox mode allows HR professionals and developers to:
-- Test data manipulation in a safe environment
-- Demonstrate real-time data flow between components
-- Validate CRUD operations for employee and metric data
-- Showcase the platform's capabilities without production concerns
-
-### Features
-- **Toggle Edit Mode** - Enable/disable editing capabilities
-- **Inline Editing** - Click-to-edit metrics and employee records
-- **Real-time Updates** - Changes reflect immediately across the dashboard
-- **Data Persistence** - Local storage for development data
-- **Visual Indicators** - Clear indication when sandbox mode is active
-
-### Usage
-1. Navigate to dashboard and click "Enable Edit Mode"
-2. Edit metrics by clicking the ✏️ icon on metric cards
-3. Add new activities using the "Add" button in Activity Feed
-4. Modify employee data on the main page sandbox section
-5. Watch real-time updates across all components
-
-## 📱 Mobile Optimization
-
-### Responsive Design Features
-- **Mobile-First Approach** - Optimized for small screens
-- **Adaptive Layouts** - Grid systems that stack on mobile
-- **Touch-Friendly Controls** - Appropriate button sizes and spacing
-- **Responsive Typography** - Text scales appropriately across devices
-- **Optimized Spacing** - Reduced padding and margins on mobile
-
-### Breakpoint Strategy
-- **Mobile**: `sm:` (640px+) - Compact layouts, stacked grids
-- **Tablet**: `md:` (768px+) - Medium spacing, 2-column grids
-- **Desktop**: `lg:` (1024px+) - Full layouts, 4-column grids
-- **Large**: `xl:` (1280px+) - Maximum content width
-
-### Mobile-Specific Enhancements
-- **Compact Headers** - Smaller logo and button sizes on mobile
-- **Stacked Navigation** - Vertical layout for mobile navigation
-- **Touch Targets** - Minimum 44px touch areas for mobile
-- **Readable Text** - Appropriate font sizes for mobile screens
-- **Optimized Forms** - Mobile-friendly input fields and buttons
-
-## 🤖 AI Context Awareness
-
-### Platform Understanding
-The AI assistant is aware of:
-- **Site Structure** - Navigation patterns and page relationships
-- **Data Models** - Employee, metric, and activity data structures
-- **Sandbox Capabilities** - Development and testing features
-- **Voice Commands** - Predefined AI suggestions and actions
-- **Real-time Updates** - Live data synchronization
-
-### Common User Scenarios
-1. **HR Professional Setup** - Configuring the platform for team management
-2. **Data Entry** - Adding and managing employee records
-3. **Performance Monitoring** - Tracking KPIs and metrics
-4. **Voice Interaction** - Using VoiceLoop for hands-free HR tasks
-5. **Development Testing** - Utilizing sandbox mode for validation
-
-## 🛠️ Technical Implementation
-
-### Frontend Stack
-- **React 18** - Modern React with hooks and context
+### **Frontend**
+- **React 18** - Modern UI framework with hooks
 - **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first CSS framework
-- **shadcn/ui** - High-quality component library
+- **Tailwind CSS** - Utility-first styling
+- **shadcn/ui** - Beautiful, accessible components
 - **Vite** - Fast build tool and dev server
 
-### State Management
-- **React Context** - Global state for sandbox mode
-- **Local Storage** - Persistence for chat and user preferences
-- **Real-time Updates** - Live data synchronization
+### **Backend & Database**
+- **Supabase** - Authentication, database, and real-time features
+- **PostgreSQL** - Robust relational database with pgvector extension
+- **Row Level Security (RLS)** - Data isolation and security
 
-### Voice Services
-- **OpenAI Whisper** - Speech-to-text via API
-- **ElevenLabs** - Text-to-speech synthesis
-- **MediaRecorder API** - Browser-based audio recording
-- **Audio API** - Playback and audio management
+### **AI & Machine Learning**
+- **OpenAI GPT-4** - Advanced language model for analysis
+- **OpenAI Whisper** - Speech-to-text transcription
+- **OpenAI TTS** - Text-to-speech synthesis
+- **ElevenLabs** - Enhanced voice synthesis (optional)
+- **Vector Embeddings** - Semantic search and similarity
 
-### Responsive Utilities
-- **CSS Grid** - Flexible layout system
-- **Flexbox** - Component alignment and spacing
-- **CSS Variables** - Theme-aware styling
-- **Media Queries** - Breakpoint-specific styles
+### **Development Tools**
+- **ESLint** - Code quality and consistency
+- **Prettier** - Code formatting
+- **Git Hooks** - Pre-commit validation
 
-## 🚀 Getting Started
+## 🚀 **Quick Start**
 
-### Prerequisites
+### **Prerequisites**
 - Node.js 18+ and npm
-- OpenAI API key for Whisper functionality
-- ElevenLabs API key for text-to-speech
+- Supabase account (free tier works)
+- OpenAI API key (optional for full features)
 
-### Installation
+### **1. Clone the Repository**
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd human-light-mode-main
+git clone https://github.com/teamloophr/voiceloop.git
+cd voiceloop
+```
+
+### **2. Install Dependencies**
+```bash
+npm install
+```
+
+### **3. Environment Setup**
+```bash
+# Copy the secure template
+cp env.template .env.local
+
+# Edit .env.local with your actual API keys
+# NEVER commit this file!
+```
+
+**Required Environment Variables:**
+```bash
+# Supabase Configuration (Required)
+VITE_SUPABASE_URL=your_supabase_project_url
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+# OpenAI Configuration (Optional - for AI features)
+VITE_OPENAI_API_KEY=your_openai_api_key
+
+# ElevenLabs Configuration (Optional - for enhanced TTS)
+VITE_ELEVENLABS_API_KEY=your_elevenlabs_api_key
+```
+
+### **4. Database Setup**
+1. Create a new Supabase project
+2. Run the SQL from `src/database-schema.sql` in your Supabase SQL Editor
+3. Enable Row Level Security (RLS) on all tables
+
+### **5. Start Development Server**
+```bash
+npm run dev
+```
+
+Visit `http://localhost:5173` to see VoiceLoop in action!
+
+## 📚 **Core Features Deep Dive**
+
+### **🤖 Smart Document Intelligence**
+
+VoiceLoop's AI engine can analyze any document type and provide intelligent insights:
+
+- **Document Types Supported**: PDF, DOCX, CSV, XLSX, Images
+- **AI Analysis**: Automatic summarization, key point extraction, content categorization
+- **Smart Recommendations**: AI suggests whether documents should be saved to RAG system
+- **Content Understanding**: Semantic analysis and intelligent tagging
+
+### **🎤 Voice Command System**
+
+Control VoiceLoop entirely with your voice:
+
+- **Wake Word**: "Hey VoiceLoop" to activate voice commands
+- **Natural Language**: Speak commands in plain English
+- **Document Operations**: "Upload resume", "Analyze document", "Search for policies"
+- **Navigation**: "Go to dashboard", "Show employee list", "Open chat"
+
+### **🔍 RAG (Retrieval Augmented Generation)**
+
+Advanced document search and retrieval:
+
+- **Vector Embeddings**: Convert documents to searchable vectors
+- **Semantic Search**: Find relevant content using natural language queries
+- **Intelligent Retrieval**: AI-powered document recommendations
+- **Knowledge Base**: Build comprehensive organizational knowledge
+
+### **🔐 Secure User Management**
+
+Enterprise-grade security and user isolation:
+
+- **Multi-User Support**: Each user has isolated data and settings
+- **API Key Management**: Secure storage of user-specific API keys
+- **Row Level Security**: Database-level access control
+- **Session Management**: Secure authentication with JWT tokens
+
+## 📱 **User Experience**
+
+### **For HR Professionals**
+- **Intuitive Interface**: Clean, modern design optimized for productivity
+- **Voice Efficiency**: Reduce time spent on repetitive tasks
+- **Smart Insights**: AI-powered analysis of employee documents
+- **Compliance Ready**: Secure storage and audit trails
+
+### **For Administrators**
+- **User Management**: Control access and permissions
+- **System Monitoring**: Track usage and performance
+- **Security Controls**: Manage authentication and data access
+- **Customization**: Configure features and workflows
+
+## 🔒 **Security Features**
+
+### **Data Protection**
+- ✅ **End-to-End Encryption** - All data encrypted in transit and at rest
+- ✅ **Row Level Security** - Users can only access their own data
+- ✅ **API Key Isolation** - Each user's keys are completely separate
+- ✅ **Session Security** - JWT-based authentication with secure tokens
+
+### **Privacy & Compliance**
+- ✅ **GDPR Ready** - User data control and deletion capabilities
+- ✅ **SOC 2 Compliant** - Enterprise-grade security standards
+- ✅ **Audit Logging** - Complete activity tracking and monitoring
+- ✅ **Data Residency** - Control where your data is stored
+
+## 🚀 **Deployment Options**
+
+### **Development**
+- Local development with hot reload
+- Environment-based configuration
+- Debug mode and logging
+
+### **Production**
+- **Vercel** - Frontend deployment
+- **Supabase** - Backend and database
+- **GitHub Actions** - CI/CD pipeline
+- **Environment Management** - Secure production configuration
+
+## 📊 **Performance & Scalability**
+
+- **Lightning Fast** - Optimized React components and lazy loading
+- **Scalable Database** - PostgreSQL with connection pooling
+- **CDN Ready** - Static asset optimization
+- **Real-time Updates** - Supabase real-time subscriptions
+
+## 🤝 **Contributing**
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### **Development Setup**
+```bash
+# Fork and clone the repository
+git clone https://github.com/your-username/voiceloop.git
 
 # Install dependencies
 npm install
 
-# Set up environment variables
-cp env.example .env.local
-# Add your API keys to .env.local
+# Run tests
+npm test
 
 # Start development server
 npm run dev
 ```
 
-### Environment Variables
-```bash
-# OpenAI API Key (required for Whisper)
-VITE_OPENAI_API_KEY=your_openai_key_here
+### **Code Standards**
+- TypeScript for type safety
+- ESLint for code quality
+- Prettier for formatting
+- Conventional commits for version control
 
-# ElevenLabs API Key (required for TTS)
-VITE_ELEVENLABS_API_KEY=your_elevenlabs_key_here
-```
-
-### Build & Deploy
-```bash
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-
-# Deploy to your hosting platform
-# The build output is in the 'dist' folder
-```
-
-## 🎨 Customization
-
-### Theming
-- **Dark Mode** - True black backgrounds with accent colors
-- **Light Mode** - Clean white backgrounds with subtle gradients
-- **Custom Colors** - Modify CSS variables in `src/index.css`
-- **Component Styling** - Override shadcn/ui component styles
-
-### Voice Assistant
-- **Custom Commands** - Add new voice command suggestions
-- **AI Responses** - Modify AI behavior and responses
-- **Voice Settings** - Adjust TTS voice and speed
-- **Integration** - Connect to external HR systems
-
-### Data Models
-- **Employee Fields** - Customize employee record structure
-- **Metrics** - Define custom KPIs and calculations
-- **Activities** - Add new activity types and statuses
-- **Validation** - Implement custom data validation rules
-
-## 🔧 Development
-
-### Project Structure
-```
-src/
-├── components/          # Reusable UI components
-│   ├── dashboard/      # Dashboard-specific components
-│   ├── ui/            # shadcn/ui components
-│   └── voice/         # Voice-related components
-├── contexts/           # React context providers
-├── hooks/             # Custom React hooks
-├── pages/             # Route components
-├── services/          # API and external service integrations
-└── lib/               # Utility functions and configurations
-```
-
-### Key Components
-- **DashboardLayout** - Main dashboard structure and navigation
-- **MetricsPanel** - HR metrics display with inline editing
-- **ActivityFeed** - Activity tracking with add functionality
-- **FloatingChat** - Persistent voice-enabled chat interface
-- **SandboxContext** - Global state management for sandbox mode
-
-### Adding New Features
-1. **Component Creation** - Add new components to appropriate directories
-2. **State Management** - Extend SandboxContext for new data types
-3. **Routing** - Add new routes in App.tsx
-4. **Styling** - Use Tailwind classes and CSS variables
-5. **Testing** - Test on mobile and desktop devices
-
-## 📱 Mobile Testing
-
-### Device Testing
-- **iOS Safari** - Test on iPhone and iPad
-- **Android Chrome** - Test on various Android devices
-- **Responsive DevTools** - Use browser dev tools for mobile simulation
-- **Touch Interactions** - Verify touch targets and gestures
-
-### Performance
-- **Bundle Size** - Monitor JavaScript bundle size
-- **Loading Speed** - Test on slower mobile networks
-- **Memory Usage** - Check for memory leaks on mobile
-- **Battery Impact** - Minimize battery drain from voice features
-
-## 🤝 Contributing
-
-### Development Workflow
-1. **Feature Branch** - Create feature branch from main
-2. **Mobile First** - Develop with mobile in mind
-3. **Testing** - Test on multiple devices and screen sizes
-4. **Code Review** - Submit PR for review
-5. **Mobile Validation** - Ensure mobile compatibility
-
-### Code Standards
-- **TypeScript** - Use strict typing
-- **Responsive Design** - Mobile-first approach
-- **Accessibility** - Follow WCAG guidelines
-- **Performance** - Optimize for mobile devices
-
-## 📄 License
+## 📄 **License**
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Support
+## 🆘 **Support & Documentation**
 
-For support and questions:
-- Check the documentation in the `docs/` folder
-- Review the code examples in components
-- Test the sandbox mode for feature understanding
-- Use the VoiceLoop assistant for platform guidance
+### **Getting Help**
+- 📚 [Documentation](docs/) - Comprehensive guides and API reference
+- 🐛 [Issues](https://github.com/teamloophr/voiceloop/issues) - Report bugs and request features
+- 💬 [Discussions](https://github.com/teamloophr/voiceloop/discussions) - Ask questions and share ideas
+
+### **Setup Guides**
+- [Authentication Setup](AUTHENTICATION_SETUP.md) - User management and security
+- [Supabase Configuration](SUPABASE_RAG_SETUP.md) - Database and RAG system setup
+- [Email Customization](SUPABASE_EMAIL_SETUP.md) - Branded confirmation emails
+- [Document Analysis](DOCUMENT_ANALYSIS_SETUP.md) - AI-powered document processing
+
+## 🌟 **Roadmap**
+
+### **Phase 1: Core Platform** ✅
+- [x] User authentication and management
+- [x] Document upload and analysis
+- [x] Voice command system
+- [x] RAG implementation
+- [x] Basic HR features
+
+### **Phase 2: Advanced Features** 🚧
+- [ ] Advanced analytics dashboard
+- [ ] Team collaboration tools
+- [ ] Workflow automation
+- [ ] Mobile application
+- [ ] API integrations
+
+### **Phase 3: Enterprise Features** 📋
+- [ ] Multi-tenant architecture
+- [ ] Advanced security features
+- [ ] Compliance reporting
+- [ ] Performance optimization
+- [ ] Global deployment
+
+## 🙏 **Acknowledgments**
+
+- **OpenAI** for providing cutting-edge AI models
+- **Supabase** for the excellent backend-as-a-service platform
+- **React Team** for the amazing frontend framework
+- **Open Source Community** for the incredible tools and libraries
 
 ---
 
-**Built with ❤️ for modern HR professionals who value efficiency, accessibility, and innovation.**
+**Built with ❤️ by the VoiceLoop Team**
+
+[Website](https://voiceloop.ai) • [Documentation](https://docs.voiceloop.ai) • [Support](https://support.voiceloop.ai)
+
+---
+
+<div align="center">
+
+**Transform your HR workflow with the power of AI and voice commands.**
+
+[Get Started](#quick-start) • [View Demo](https://demo.voiceloop.ai) • [Join Community](https://community.voiceloop.ai)
+
+</div>
