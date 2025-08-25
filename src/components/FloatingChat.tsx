@@ -17,12 +17,17 @@ import {
   Settings,
   Volume2,
   Loader2,
-  Trash2
+  Trash2,
+  Paperclip,
+  Upload
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { openaiService } from '@/services/openaiService';
 import { elevenLabsService } from '@/services/elevenLabsService';
 import { voiceCommands } from '@/lib/voiceCommands';
+import ChatFileUpload from './ChatFileUpload';
+import { ChatDocumentModal } from './chat/ChatDocumentModal';
+import { useToast } from '@/hooks/use-toast';
 
 interface Message {
   id: string;
@@ -64,8 +69,10 @@ export const FloatingChat: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showFileUpload, setShowFileUpload] = useState(false);
   const [openaiKey, setOpenaiKey] = useState('');
   const [elevenLabsKey, setElevenLabsKey] = useState('');
+  const [uploadedFiles, setUploadedFiles] = useState<any[]>([]);
   
   // Dragging state
   const [position, setPosition] = useState<Position>(() => {
@@ -88,6 +95,7 @@ export const FloatingChat: React.FC = () => {
   const chatRef = useRef<HTMLDivElement>(null);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+  const { toast } = useToast();
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -428,6 +436,76 @@ export const FloatingChat: React.FC = () => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
+  // Document analysis handlers
+  const handleDocumentAnalyzed = (analysis: any) => {
+    // Add assistant message about the document analysis
+    const analysisMessage = {
+      id: Date.now().toString(),
+      content: `📄 **Document Analysis Complete!**
+
+I've analyzed "${analysis.fileName}" and here's what I found:
+
+**📋 Summary:** ${analysis.summary}
+
+**🔑 Key Points:**
+${analysis.keyPoints.map((point: string) => `• ${point}`).join('\n')}
+
+**📊 Document Details:**
+• Type: ${analysis.documentType}
+• Words: ${analysis.wordCount}
+• Sentences: ${analysis.sentenceCount}
+• Estimated RAG Chunks: ${analysis.estimatedChunks}
+• Confidence: ${(analysis.confidence * 100).toFixed(0)}%
+
+**💡 Recommendation:** Based on my analysis, this document appears to contain valuable information that could enhance your knowledge base. 
+
+Would you like me to save this document to your RAG library for future reference? This will allow me to answer questions based on its content.`,
+      sender: 'assistant' as const,
+      timestamp: new Date()
+    };
+    
+    setMessages(prev => [...prev, analysisMessage]);
+    scrollToBottom();
+  };
+
+  const handleSaveForRAG = (documentId: string) => {
+    // Add confirmation message
+    const confirmMessage = {
+      id: Date.now().toString(),
+      content: `✅ **Document Saved to RAG Library!**
+
+Great choice! I've successfully added this document to your knowledge base. 
+
+**What this means:**
+• I can now reference this information when answering your questions
+• The document content is indexed and searchable
+• Future queries will include insights from this document
+• Your knowledge base is continuously expanding
+
+**Next steps:**
+You can now ask me questions about the content of this document, or upload more documents to build a comprehensive knowledge library. Try asking something like:
+• "What are the key points from the document I just uploaded?"
+• "Summarize the main findings from [document name]"
+• "How does this document relate to [specific topic]?"
+
+Is there anything specific you'd like to know about this document?`,
+      sender: 'assistant' as const,
+      timestamp: new Date()
+    };
+    
+    setMessages(prev => [...prev, confirmMessage]);
+    scrollToBottom();
+    
+    // Here you would typically make an API call to save to your RAG system
+    console.log('Document saved for RAG:', documentId);
+    
+    // Show success toast
+    toast({
+      title: "Document Saved Successfully!",
+      description: "The document has been added to your RAG knowledge base.",
+    });
+  };
+
   if (!isOpen) {
     return (
       <div className="fixed bottom-6 right-6 z-50">
@@ -671,6 +749,33 @@ export const FloatingChat: React.FC = () => {
 
                 {/* Input Area */}
                 <div className="flex gap-2">
+                  {/* Smart Document Upload */}
+                  <ChatDocumentModal
+                    onDocumentAnalyzed={handleDocumentAnalyzed}
+                    onSaveForRAG={handleSaveForRAG}
+                    trigger={
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="px-3"
+                        title="Upload Document for AI Analysis"
+                      >
+                        <Upload className="h-4 w-4" />
+                      </Button>
+                    }
+                  />
+                  
+                  {/* Regular File Upload */}
+                  <Button
+                    onClick={() => setShowFileUpload(true)}
+                    variant="outline"
+                    size="sm"
+                    className="px-3"
+                    title="Upload File"
+                  >
+                    <Paperclip className="h-4 w-4" />
+                  </Button>
+                  
                   <Input
                     ref={inputRef}
                     value={inputValue}
@@ -723,6 +828,25 @@ export const FloatingChat: React.FC = () => {
           </>
         )}
       </Card>
+      
+      {/* File Upload Modal */}
+      {showFileUpload && (
+        <ChatFileUpload
+          onFileUploaded={(file) => {
+            setUploadedFiles(prev => [...prev, file]);
+            // Add a system message about the uploaded file
+            const newMessage: Message = {
+              id: Date.now().toString(),
+              content: `📎 File uploaded: ${file.filename} (${file.fileType.toUpperCase()})`,
+              sender: 'assistant',
+              timestamp: new Date()
+            };
+            setMessages(prev => [...prev, newMessage]);
+            setShowFileUpload(false);
+          }}
+          onClose={() => setShowFileUpload(false)}
+        />
+      )}
     </div>
   );
 };

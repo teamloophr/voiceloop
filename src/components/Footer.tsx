@@ -4,7 +4,7 @@ import {
   Linkedin, 
   Github
 } from "lucide-react"
-import teamloopLogo from "@/assets/teamloop-logo-2.png"
+
 
 export function Footer() {
   const socialLinks = [

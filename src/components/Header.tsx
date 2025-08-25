@@ -1,15 +1,28 @@
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { VoiceTranscription } from "./VoiceTranscription"
-import { Menu, X, Settings } from "lucide-react"
+import { Menu, X, Settings, User, LogIn } from "lucide-react"
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import teamloopLogo from "@/assets/teamloop-logo-2.png"
+import { useAuth } from "@/contexts/AuthContext"
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { user, signOut } = useAuth()
 
-  const navigation = []
+  const navigation = [
+    { name: 'Dashboard', href: '/dashboard' },
+    { name: 'Document Analysis', href: '/documents' },
+    { name: 'Chat', href: '/chat' }
+  ]
+
+  const handleSignOut = async () => {
+    try {
+      await signOut()
+    } catch (error) {
+      console.error('Sign out error:', error)
+    }
+  }
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
@@ -18,7 +31,7 @@ export function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img 
-              src={teamloopLogo} 
+              src="/teamloop-logo.png" 
               alt="Teamloop Logo" 
               className="h-20 w-auto cursor-pointer hover:opacity-80 transition-opacity"
             />
@@ -39,11 +52,30 @@ export function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link to="/settings">
-              <Button variant="ghost" size="sm" className="h-10 w-10 p-0">
-                <Settings className="h-4 w-4" />
-              </Button>
-            </Link>
+            {user ? (
+              <>
+                <Link to="/profile">
+                  <Button variant="ghost" size="sm" className="h-10 w-10 p-0">
+                    <User className="h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link to="/settings">
+                  <Button variant="ghost" size="sm" className="h-10 w-10 p-0">
+                    <Settings className="h-4 w-4" />
+                  </Button>
+                </Link>
+                <Button variant="outline" size="sm" onClick={handleSignOut}>
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <Link to="/auth">
+                <Button variant="outline" size="sm">
+                  <LogIn className="h-4 w-4 mr-2" />
+                  Sign In
+                </Button>
+              </Link>
+            )}
             <ThemeToggle />
           </div>
 
@@ -75,11 +107,37 @@ export function Header() {
                 </Link>
               ))}
               <div className="flex flex-col space-y-2 pt-4">
-                <Link to="/settings" className="w-full">
-                  <Button variant="ghost" size="sm" className="w-full justify-start">
-                    <Settings className="h-4 w-4 mr-2" />
-                  </Button>
-                </Link>
+                {user ? (
+                  <>
+                    <Link to="/profile" className="w-full">
+                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                        <User className="h-4 w-4 mr-2" />
+                        Profile
+                      </Button>
+                    </Link>
+                    <Link to="/settings" className="w-full">
+                      <Button variant="ghost" size="sm" className="w-full justify-start">
+                        <Settings className="h-4 w-4 mr-2" />
+                        Settings
+                      </Button>
+                    </Link>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full justify-start"
+                      onClick={handleSignOut}
+                    >
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <Link to="/auth" className="w-full">
+                    <Button variant="outline" size="sm" className="w-full justify-start">
+                      <LogIn className="h-4 w-4 mr-2" />
+                      Sign In
+                    </Button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import teamloopLogo from "@/assets/teamloop-logo-2.png"
+
 
 interface SplashPageProps {
   onComplete: () => void
@@ -36,7 +36,7 @@ export function SplashPage({ onComplete }: SplashPageProps) {
       }`}>
         {/* Large Logo */}
         <img 
-          src={teamloopLogo} 
+          src="/teamloop-logo.png" 
           alt="Teamloop" 
           className="h-80 w-auto mx-auto mb-8 drop-shadow-2xl"
         />

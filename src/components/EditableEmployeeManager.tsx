@@ -20,6 +20,7 @@ import {
   Clock
 } from 'lucide-react';
 import { useSandbox } from '@/contexts/SandboxContext';
+import ResumeUpload from './ResumeUpload';
 
 interface EmployeeFormData {
   name: string;
@@ -242,6 +243,21 @@ export const EditableEmployeeManager: React.FC = () => {
                 />
               </div>
             </div>
+            
+            {/* Resume Upload Section */}
+            {editingId && (
+              <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                <ResumeUpload
+                  employeeId={editingId}
+                  employeeName={formData.name}
+                  onResumeUploaded={(resume) => {
+                    console.log('Resume uploaded:', resume);
+                    // Here you can integrate with your backend to associate resumes with employees
+                  }}
+                />
+              </div>
+            )}
+            
             <div className="flex gap-2">
               <Button onClick={handleSubmit} className="flex-1">
                 <Save className="h-4 w-4 mr-2" />

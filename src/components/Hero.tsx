@@ -39,10 +39,12 @@ export function Hero() {
                 <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="group">
-              <Play className="mr-2 h-4 w-4" />
-              AI Demo
-            </Button>
+            <Link to="/documents">
+              <Button size="lg" variant="outline" className="group">
+                <Play className="mr-2 h-4 w-4" />
+                Document Analysis
+              </Button>
+            </Link>
           </div>
 
           {/* Trust indicators */}

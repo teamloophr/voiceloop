@@ -1,40 +1,51 @@
-// TEMPORARILY DISABLED - Waiting for PM database decision
-// import { createClient } from '@supabase/supabase-js'
+import { createClient } from '@supabase/supabase-js'
 
-// const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'YOUR_SUPABASE_URL'
-// const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'YOUR_SUPABASE_ANON_KEY'
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-// export const supabase = createClient(supabaseUrl, supabaseAnonKey)
-
-// Mock Supabase client for UI testing
-export const supabase = {
-  auth: {
-    getSession: async () => ({ data: { session: null }, error: null }),
-    getUser: async () => ({ data: { user: null }, error: null }),
-    signUp: async () => ({ data: null, error: new Error('Database not configured') }),
-    signIn: async () => ({ data: null, error: new Error('Database not configured') }),
-    signOut: async () => ({ error: null })
-  }
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing Supabase environment variables. Please check your .env file.')
 }
 
-// Auth helper functions (temporarily disabled)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    redirectTo: import.meta.env.VITE_SUPABASE_REDIRECT_URL || window.location.origin + '/auth',
+    flowType: 'pkce'
+  }
+})
+
+// Auth functions
 export const signUp = async (email: string, password: string) => {
-  return { data: null, error: new Error('Database not configured - waiting for PM decision') }
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: import.meta.env.VITE_SUPABASE_REDIRECT_URL || window.location.origin + '/auth'
+    }
+  })
+  return { data, error }
 }
 
 export const signIn = async (email: string, password: string) => {
-  return { data: null, error: new Error('Database not configured - waiting for PM decision') }
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  })
+  return { data, error }
 }
 
 export const signOut = async () => {
-  return { error: null }
+  const { error } = await supabase.auth.signOut()
+  return { error }
 }
 
 export const getCurrentUser = async () => {
-  return { user: null, error: new Error('Database not configured - waiting for PM decision') }
+  const { data: { user }, error } = await supabase.auth.getUser()
+  return { user, error }
 }
 
 export const getSession = async () => {
-  return { session: null, error: new Error('Database not configured - waiting for PM decision') }
+  const { data: { session }, error } = await supabase.auth.getSession()
+  return { session, error }
 }
 
