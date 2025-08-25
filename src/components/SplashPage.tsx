@@ -36,8 +36,8 @@ export function SplashPage({ onComplete }: SplashPageProps) {
       }`}>
         {/* Large Logo */}
         <img 
-          src="/teamloop-logo.png" 
-          alt="Teamloop" 
+          src="/voiceloop-logo-black.png" 
+          alt="VoiceLoop" 
           className="h-80 w-auto mx-auto mb-8 drop-shadow-2xl"
         />
         

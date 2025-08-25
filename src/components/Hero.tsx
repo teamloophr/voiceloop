@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Play, CheckCircle, Bot } from "lucide-react"
-import { Link } from "react-router-dom"
+import { ArrowRight, CheckCircle } from "lucide-react"
+
 
 export function Hero() {
   return (
@@ -31,20 +30,14 @@ export function Hero() {
             how you manage your team. From onboarding to performance analytics, all powered by AI.
           </p>
 
-          {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Link to="/dashboard">
+          {/* CTA button */}
+          <div className="flex justify-center mb-12">
+            <a href="https://main.d1fx10pzvtm51o.amplifyapp.com/" target="_blank" rel="noopener noreferrer">
               <Button size="lg" className="bg-gradient-primary hover:opacity-90 shadow-glow group">
                 Launch VoiceLoop
                 <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
               </Button>
-            </Link>
-            <Link to="/voice-loop">
-              <Button size="lg" variant="outline" className="group">
-                <Bot className="mr-2 h-4 w-4" />
-                VoiceLoop Chat
-              </Button>
-            </Link>
+            </a>
           </div>
 
           {/* Trust indicators */}
